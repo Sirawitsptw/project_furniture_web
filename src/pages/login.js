@@ -1,4 +1,3 @@
-// src/Login.js
 import "./login.css";
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -8,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -24,10 +22,10 @@ function Login() {
 
   return (
     <>
-      <div class="wrapper fadeInDown">
+      <div className="wrapper fadeInDown">
         <div id="formContent">
-          <h2 class="active"> Sign In </h2>
-          <div class="fadeIn first">
+          <h2 className="active"> Sign In </h2>
+          <div className="fadeIn first">
             <img
               src="https://img.icons8.com/?size=100&id=43964&format=png&color=000000"
               id="icon"
@@ -39,7 +37,7 @@ function Login() {
             <input
               type="email"
               placeholder="Email"
-              class="fadeIn second"
+              className="fadeIn second"
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -47,19 +45,18 @@ function Login() {
             <input
               type="password"
               placeholder="Password"
-              class="fadeIn third"
+              className="fadeIn third"
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <input type="submit" class="fadeIn fourth" value="Log In" />
+            <input type="submit" className="fadeIn fourth" value="Log In" />
           </form>
           <div id="formFooter">
-            <a class="underlineHover" href="#">
+            <a className="underlineHover" href="#">
               Contect us
             </a>
           </div>
-          {error && <p>{error}</p>}
         </div>
       </div>
     </>
