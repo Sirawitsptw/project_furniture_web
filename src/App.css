@@ -1,3 +1,16 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+
+/* BASIC */
+
+html {
+  background-color: #70c3ec;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+
 .App {
   text-align: center;
 }
