@@ -8,6 +8,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import HomePage from './pages/homepage';
+import AddItem from './pages/additem';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     path: "HomePage",
     element: <HomePage />,
   },
+  {
+    path: "AddItem",
+    element: <AddItem />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

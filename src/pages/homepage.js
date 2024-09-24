@@ -1,85 +1,47 @@
-import React, { useState } from "react";
-import { db, storage } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import React, { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-  const [text, setText] = useState("");
-  const [image, setImage] = useState(null);
-  const [model, setModel] = useState(null);  // เพิ่มสถานะสำหรับไฟล์โมเดล 3D
-
-  const handleTextChange = (e) => {
-    setText(e.target.value);
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  const goToAnotherPage = () => {
+    navigate("/AddItem"); // นำทางไปยังเส้นทาง "/another-page"
   };
 
-  const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-  };
-
-  const handleModelChange = (e) => {  // เพิ่มการจัดการไฟล์โมเดล
-    if (e.target.files[0]) {
-      setModel(e.target.files[0]);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      if (!image) {
-        throw new Error("กรุณาเลือกไฟล์ภาพ");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "posts"));
+        const items = [];
+        querySnapshot.forEach((doc) => {
+          items.push({ id: doc.id, ...doc.data() });
+        });
+        setData(items);
+        console.log(items);  // ดูข้อมูลที่ดึงมา
+      } catch (error) {
+        console.error("Error fetching data: ", error);
       }
+    };
 
-      if (!model) {
-        throw new Error("กรุณาเลือกไฟล์โมเดล 3D");
-      }
-
-      // อัปโหลดไฟล์รูปภาพ
-      const imageRef = ref(storage, `images/${image.name}`);
-      await uploadBytes(imageRef, image);
-      const imageUrl = await getDownloadURL(imageRef);
-
-      // อัปโหลดไฟล์โมเดล 3D
-      const modelRef = ref(storage, `models/${model.name}`);
-      await uploadBytes(modelRef, model);
-      const modelUrl = await getDownloadURL(modelRef);
-
-      // บันทึกข้อมูลใน Firestore
-      await addDoc(collection(db, "posts"), {
-        text: text,
-        imageUrl: imageUrl,
-        modelUrl: modelUrl,  // เก็บ URL ของโมเดล 3D
-        timestamp: new Date(),
-      });
-
-      setText("");
-      setImage(null);
-      setModel(null);
-      alert("อัปโหลดสำเร็จ");
-    } catch (error) {
-      console.error("Error uploading data: ", error);
-      alert(`เกิดข้อผิดพลาดในการอัปโหลด: ${error.message}`);
-    }
-  };
+    fetchData();
+  }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>ชื่อรูปภาพ และ 3D Model:</label>
-        <input type="text" value={text} onChange={handleTextChange} />
-      </div>
-      <div>
-        <label>อัปโหลดรูปภาพ:</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />  {/* เพิ่ม accept เพื่อกรองไฟล์รูปภาพ */}
-      </div>
-      <div>
-        <label>อัปโหลด 3D Model:</label>
-        <input type="file" accept=".glb,.obj" onChange={handleModelChange} /> {/* เพิ่ม accept เพื่อกรองไฟล์โมเดล */}
-      </div>
-      <button type="submit">บันทึก</button>
-    </form>
+    <div>
+      <h1>Firestore Data</h1>
+      <button onClick={goToAnotherPage}>Add Product</button>
+      <ul>
+        {data.length > 0 ? (
+          data.map((item) => (
+            <li key={item.id}>{item.name}</li> // แสดงข้อมูลในที่นี้
+          ))
+        ) : (
+          <p>No data available</p> // แสดงข้อความหากไม่มีข้อมูล
+        )}
+      </ul>
+    </div>
   );
 }
 
