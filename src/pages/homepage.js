@@ -33,13 +33,12 @@ function HomePage() {
       <h1>Firestore Data</h1>
       <button onClick={goToAnotherPage}>Add Product</button>
       <ul>
-        {data.length > 0 ? (
-          data.map((item) => (
-            <li key={item.id}>{item.name}</li> // แสดงข้อมูลในที่นี้
-          ))
-        ) : (
-          <p>No data available</p> // แสดงข้อความหากไม่มีข้อมูล
-        )}
+        {data.map(post => ( 
+          <li key={post.id}>
+            <h2 style ={{color : "#000000"}}>{post.text}</h2>
+            <img src={post.imageUrl} alt="Post Image" style={{ width: "200px", height: "auto" }} />
+          </li>
+        ))}
       </ul>
     </div>
   );

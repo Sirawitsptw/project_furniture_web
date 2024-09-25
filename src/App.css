@@ -3,7 +3,7 @@
 /* BASIC */
 
 html {
-  background-color: #87e6f3;
+  background-color: #fff;
 }
 
 body {
@@ -38,7 +38,7 @@ body {
 }
 
 .App-link {
-  color: #61dafb;
+  color: #fff;
 }
 
 @keyframes App-logo-spin {
