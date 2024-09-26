@@ -8,7 +8,7 @@ function HomePage() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const goToAnotherPage = () => {
-    navigate("/AddItem"); // นำทางไปยังเส้นทาง "/another-page"
+    navigate("/AddItem");
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function HomePage() {
           rel="stylesheet"
         ></link>
         <div className="text-center pt-5">
-          <h1 class="text-3xl font-bold mb-4">Firestore Data</h1>
+          <h1 class="text-3xl font-bold mb-4">Website</h1>
           <button
             class="bg-blue-500 text-white py-2 px-4 rounded shadow hover:bg-blue-600 transition duration-200 mb-4"
             onClick={goToAnotherPage}
