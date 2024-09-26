@@ -68,10 +68,16 @@ function AddItem() {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
       <div>
-        <label>ชื่อรูปภาพ และ 3D Model:</label>
-        <input type="text" value={text} onChange={handleTextChange} />
+        <label>ชื่อสินค้า</label>
+        <input
+          type="text"
+          placeholder="Product Name"
+          value={text}
+          onChange={handleTextChange}
+        />
       </div>
       <div>
         <label>อัปโหลดรูปภาพ:</label>
@@ -79,6 +85,8 @@ function AddItem() {
       </div>
       <button type="submit">บันทึก</button>
     </form>
+    
+    </>
   );
 }
 
