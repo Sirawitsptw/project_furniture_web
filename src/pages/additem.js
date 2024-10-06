@@ -5,14 +5,19 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
 function AddItem() {
-  const [text, setText] = useState("");
+  const [nameProduct, setNameProduct] = useState("");
+  const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
   //const [model, setModel] = useState(null);  // เพิ่มสถานะสำหรับไฟล์โมเดล 3D
   const navigate = useNavigate();
 
-  const handleTextChange = (e) => {
-    setText(e.target.value);
+  const handleNameChange = (e) => {
+    setNameProduct(e.target.value);
   };
+
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value);
+  }
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -49,14 +54,15 @@ function AddItem() {
       const modelUrl = await getDownloadURL(modelRef);*/
 
       // บันทึกข้อมูลใน Firestore
-      await addDoc(collection(db, "posts"), {
-        text: text,
+      await addDoc(collection(db, "product"), {
+        name : nameProduct,
         imageUrl: imageUrl,
-        //modelUrl: modelUrl,  // เก็บ URL ของโมเดล 3D
-        timestamp: new Date(),
+        price : price,
+        //modelUrl: modelUrl,
+        //timestamp: new Date(),
       });
 
-      setText("");
+      setNameProduct("");
       setImage(null);
       //setModel(null);
       alert("อัปโหลดสำเร็จ");
@@ -74,11 +80,20 @@ function AddItem() {
         <label>ชื่อสินค้า</label>
         <input
           type="text"
-          placeholder="Product Name"
-          value={text}
-          onChange={handleTextChange}
+          value={nameProduct}
+          onChange={handleNameChange}
         />
       </div>
+
+      <div>
+        <label>ราคา</label>
+        <input
+          type="text"
+          value={price}
+          onChange={handlePriceChange}
+        />
+      </div>
+      
       <div>
         <label>อัปโหลดรูปภาพ:</label>
         <input type="file" accept="image/*" onChange={handleImageChange} />  {/* เพิ่ม accept เพื่อกรองไฟล์รูปภาพ */}
