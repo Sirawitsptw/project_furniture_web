@@ -5,7 +5,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
 function AddItem() {
-  const [nameProduct, setNameProduct] = useState("");
+  const [name, setNameProduct] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
   //const [model, setModel] = useState(null);  // เพิ่มสถานะสำหรับไฟล์โมเดล 3D
@@ -55,7 +55,7 @@ function AddItem() {
 
       // บันทึกข้อมูลใน Firestore
       await addDoc(collection(db, "product"), {
-        name : nameProduct,
+        name : name,
         imageUrl: imageUrl,
         price : price,
         //modelUrl: modelUrl,
@@ -66,7 +66,7 @@ function AddItem() {
       setImage(null);
       //setModel(null);
       alert("อัปโหลดสำเร็จ");
-      navigate("/HomePage");
+      navigate("/");
     } catch (error) {
       console.error("Error uploading data: ", error);
       alert(`เกิดข้อผิดพลาดในการอัปโหลด: ${error.message}`);
@@ -80,7 +80,7 @@ function AddItem() {
         <label>ชื่อสินค้า</label>
         <input
           type="text"
-          value={nameProduct}
+          value={name}
           onChange={handleNameChange}
         />
       </div>
