@@ -1,23 +1,37 @@
 import "./login.css";
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-function Login() {
+function Login({ setSession }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (email === "admin@gmail.com" && password === "admin1234") {
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Login Successful");
-      navigate("/HomePage");
-    } else {
-      alert("Invalid username or password");
+  const handleLogin = async () => {
+    try {
+      const auth = getAuth();
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      const { user } = response;
+
+      setSession({
+        isLoggedIn: true,
+        currentUser: user,
+      });
+    } catch (error) {
+      setSession({
+        isLoggedIn: false,
+        currentUser: null,
+        errorMessage: error.message,
+      });
+      alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
     }
+  };
+
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -33,25 +47,28 @@ function Login() {
               style={{ width: "50px", height: "auto" }}
             />
           </div>
-          <form onSubmit={handleLogin}>
+          <div>
             <input
               type="email"
               placeholder="Email"
               className="fadeIn second"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmail}
             />
             <input
               type="password"
               placeholder="Password"
               className="fadeIn third"
               name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePassword}
             />
-            <input type="submit" className="fadeIn fourth" value="Log In" />
-          </form>
+            <input
+              type="button"
+              className="fadeIn fourth"
+              value="Log In"
+              onClick={handleLogin}
+            />
+          </div>
           <div id="formFooter">
             <a className="underlineHover" href="#">
               Contect us

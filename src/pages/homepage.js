@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { useNavigate } from "react-router-dom";
 import "./homepage.css";
 
 function HomePage() {
   const [data, setData] = useState([]);
-  const navigate = useNavigate();
-  const goToAnotherPage = () => {
-    navigate("/AddItem");
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "posts"));
+        const querySnapshot = await getDocs(collection(db, "product"));
         const items = [];
         querySnapshot.forEach((doc) => {
           items.push({ id: doc.id, ...doc.data() });
         });
         setData(items);
-        console.log(items); // ดูข้อมูลที่ดึงมา
+        console.log(items);
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -32,18 +27,13 @@ function HomePage() {
   return (
     <>
       <div class="px-5">
+        {}
         <link
           href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
           rel="stylesheet"
         ></link>
         <div className="text-center pt-5">
-          <h1 class="text-3xl font-bold mb-4">Website</h1>
-          <button
-            class="bg-blue-500 text-white py-2 px-4 rounded shadow hover:bg-blue-600 transition duration-200 mb-4"
-            onClick={goToAnotherPage}
-          >
-            Add Product
-          </button>
+          <h1 class="text-3xl font-bold mb-4">Firestore Data</h1>
         </div>
         <div class="grid grid-cols-4 pl-12 text-center">
           {data.map((post) => (
