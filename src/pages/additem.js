@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function AddItem() {
   const [name, setNameProduct] = useState("");
   const [price, setPrice] = useState("");
+  const [desc, setDesc] = useState("");
   const [image, setImage] = useState(null);
   const [model, setModel] = useState(null);  
   const navigate = useNavigate();
@@ -18,6 +19,10 @@ function AddItem() {
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
   }
+
+  const handleDescChange = (e) => {
+    setDesc(e.target.value);
+  };
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -57,6 +62,7 @@ function AddItem() {
       await addDoc(collection(db, "product"), {
         name : name,
         imageUrl: imageUrl,
+        desc : desc,
         price : price,
         model: modelUrl,
         //timestamp: new Date(),
@@ -64,6 +70,7 @@ function AddItem() {
 
       setNameProduct("");
       setPrice("");
+      setDesc("");
       setImage(null);
       setModel(null);
       alert("อัปโหลดสำเร็จ");
@@ -92,6 +99,15 @@ function AddItem() {
           type="text"
           value={price}
           onChange={handlePriceChange}
+        />
+      </div>
+
+      <div>
+        <label>คำอธิบายสินค้า</label>
+        <input
+          type="text"
+          value={desc}
+          onChange={handleDescChange}
         />
       </div>
       
