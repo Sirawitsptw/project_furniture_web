@@ -8,7 +8,7 @@ function AddItem() {
   const [name, setNameProduct] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
-  //const [model, setModel] = useState(null);  // เพิ่มสถานะสำหรับไฟล์โมเดล 3D
+  const [model, setModel] = useState(null);  
   const navigate = useNavigate();
 
   const handleNameChange = (e) => {
@@ -25,11 +25,11 @@ function AddItem() {
     }
   };
 
-  /*const handleModelChange = (e) => {  // เพิ่มการจัดการไฟล์โมเดล
+  const handleModelChange = (e) => { 
     if (e.target.files[0]) {
       setModel(e.target.files[0]);
     }
-  };*/
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,23 +48,24 @@ function AddItem() {
       await uploadBytes(imageRef, image);
       const imageUrl = await getDownloadURL(imageRef);
 
-      /*// อัปโหลดไฟล์โมเดล 3D
+      // อัปโหลดไฟล์โมเดล 3D
       const modelRef = ref(storage, `models/${model.name}`);
       await uploadBytes(modelRef, model);
-      const modelUrl = await getDownloadURL(modelRef);*/
+      const modelUrl = await getDownloadURL(modelRef);
 
       // บันทึกข้อมูลใน Firestore
       await addDoc(collection(db, "product"), {
         name : name,
         imageUrl: imageUrl,
         price : price,
-        //modelUrl: modelUrl,
+        model: modelUrl,
         //timestamp: new Date(),
       });
 
       setNameProduct("");
+      setPrice("");
       setImage(null);
-      //setModel(null);
+      setModel(null);
       alert("อัปโหลดสำเร็จ");
       navigate("/");
     } catch (error) {
@@ -95,8 +96,12 @@ function AddItem() {
       </div>
       
       <div>
-        <label>อัปโหลดรูปภาพ:</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />  {/* เพิ่ม accept เพื่อกรองไฟล์รูปภาพ */}
+        <label>อัปโหลดรูปภาพ :</label>
+        <input type="file" accept="image/*" onChange={handleImageChange} />  {}
+      </div>
+      <div>
+        <label>อัปโหลด 3D Model :</label>
+        <input type="file" accept=".obj,.glb" onChange={handleModelChange} />  {}
       </div>
       <button type="submit">บันทึก</button>
     </form>
