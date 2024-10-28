@@ -60,7 +60,7 @@ function App() {
                       Profile
                     </a>
                     <a href="" className="text-white hover:text-black">
-                      Settings
+                      รายการคำสั่งซื้อ
                     </a>
                     <a href="Additem" className="text-white hover:text-black">
                       Add Product
