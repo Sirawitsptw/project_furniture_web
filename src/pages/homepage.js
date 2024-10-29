@@ -49,9 +49,7 @@ function HomePage() {
                   {post.text}
                 </h6>
                 <p class="text-slate-600 leading-normal font-light">
-                  The place is close to Barceloneta Beach and bus stop just 2
-                  min by walk and near to &quot;Naviglio&quot; where you can
-                  enjoy the main night life in Barcelona.
+                  {post.name}
                 </p>
               </div>
               <div class="px-4 pb-4 pt-0 mt-2 space-x-2">

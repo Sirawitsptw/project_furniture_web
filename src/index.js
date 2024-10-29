@@ -4,8 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import HomePage from "./pages/homepage";
 import AddItem from "./pages/additem";
+import Listdata from "./pages/list";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: "AddItem",
     element: <AddItem />,
+  },
+  {
+    path: "Listdata",
+    element: <Listdata />,
   },
 ]);
 

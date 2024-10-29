@@ -59,7 +59,7 @@ function App() {
                     <a href="" className="text-white hover:text-black">
                       Profile
                     </a>
-                    <a href="" className="text-white hover:text-black">
+                    <a href="Listdata" className="text-white hover:text-black">
                       รายการคำสั่งซื้อ
                     </a>
                     <a href="Additem" className="text-white hover:text-black">
