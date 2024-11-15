@@ -35,24 +35,12 @@ function Nav() {
                   href="/"
                   className="text-white text-2xl font-bold hover:text-blue-200 transition-colors duration-300"
                 >
-                  MyApp
+                  Homepage
                 </a>
               </div>
 
               {/* Navigation Links */}
               <div className="flex justify-center space-x-8">
-                <a
-                  href=""
-                  className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
-                >
-                  Home
-                </a>
-                <a
-                  href=""
-                  className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
-                >
-                  Profile
-                </a>
                 <a
                   href="Listdata"
                   className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
@@ -63,7 +51,7 @@ function Nav() {
                   href="AddItem"
                   className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
                 >
-                  Add Product
+                  เพิ่มสินค้า
                 </a>
               </div>
 

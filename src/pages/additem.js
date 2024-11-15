@@ -69,6 +69,7 @@ function AddItem() {
         imageUrl: imageUrl,
         price: price,
         model: modelUrl,
+        desc: desc
         //timestamp: new Date(),
       });
 
