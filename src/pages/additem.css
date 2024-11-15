@@ -1,0 +1,80 @@
+/* ตกแต่งฟอร์ม */
+form {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* จัดการ div ที่ครอบแต่ละ field */
+form > div {
+  margin-bottom: 20px;
+}
+
+/* จัดการ label */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+/* จัดการ input ทั้งหมด */
+input[type="text"],
+input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+/* เมื่อ hover และ focus ที่ input */
+input[type="text"]:hover,
+input[type="text"]:focus {
+  border-color: #4f46e5;
+  outline: none;
+}
+
+/* ปรับแต่ง input file */
+input[type="file"] {
+  padding: 8px;
+  background-color: #f8fafc;
+  cursor: pointer;
+  border: 2px dashed #ddd;
+}
+
+input[type="file"]:hover {
+  border-color: #4f46e5;
+  background-color: #f1f5f9;
+}
+
+/* ตกแต่งปุ่มบันทึก */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #4338ca;
+}
+
+/* สำหรับ Responsive */
+@media (max-width: 640px) {
+  form {
+    margin: 20px;
+    padding: 20px;
+  }
+}

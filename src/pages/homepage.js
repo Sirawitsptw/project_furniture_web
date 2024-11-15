@@ -26,41 +26,53 @@ function HomePage() {
 
   return (
     <>
-      <div class="px-5">
-        {}
+      <div className="px-5 bg-gray-50 min-h-screen">
         <link
           href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
           rel="stylesheet"
-        ></link>
-        <div className="text-center pt-5">
-          <h1 class="text-3xl font-bold mb-4">Firestore Data</h1>
+        />
+
+        {/* Header Section */}
+        <div className="text-center py-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4 hover:text-indigo-600 transition-colors duration-300">
+            Firestore Data
+          </h1>
         </div>
-        <div class="grid grid-cols-4 pl-12 text-center">
+
+        {/* Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {data.map((post) => (
             <div
-              class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-96 "
+              className="transform hover:scale-105 transition-all duration-300 bg-white rounded-xl shadow-lg hover:shadow-xl border border-gray-100"
               key={post.id}
             >
-              <div class="relative h-56 m-2.5 overflow-hidden text-white rounded-md text-center">
-                <img src={post.imageUrl} alt="card-image" />
+              {/* Image Container */}
+              <div className="relative h-56 overflow-hidden rounded-t-xl">
+                <img
+                  src={post.imageUrl}
+                  alt="card-image"
+                  className="w-full h-full object-cover hover:opacity-90 transition-opacity duration-300"
+                />
               </div>
-              <div class="p-4">
-                <h6 class="mb-2 text-slate-800 text-xl font-semibold">
+
+              {/* Content */}
+              <div className="p-5">
+                <h6 className="mb-3 text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-300">
                   {post.text}
                 </h6>
-                <p class="text-slate-600 leading-normal font-light">
-                  {post.name}
-                </p>
+                <p className="text-gray-600 text-sm mb-4">{post.name}</p>
               </div>
-              <div class="px-4 pb-4 pt-0 mt-2 space-x-2">
+
+              {/* Buttons */}
+              <div className="px-5 pb-5 flex gap-3">
                 <button
-                  class="bg-green-600 text-white font-bold py-2 px-4 rounded hover:bg-gray-400"
+                  className="flex-1 bg-green-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-emerald-600 active:bg-emerald-700 transition-colors duration-300 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                   type="button"
                 >
                   Edit
                 </button>
                 <button
-                  class="bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-gray-400"
+                  className="flex-1 bg-red-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-red-600 active:bg-red-700 transition-colors duration-300 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   type="button"
                 >
                   Delete

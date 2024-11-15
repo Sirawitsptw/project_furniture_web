@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { db, storage } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import "./additem.css";
+import Nav from "./Nav";
+import { SessionContext } from "../App";
 
 function AddItem() {
+  // const { session, setSession } = useContext(SessionContext);
+  // console.log(session);
   const [name, setNameProduct] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
   const [image, setImage] = useState(null);
-  const [model, setModel] = useState(null);  
+  const [model, setModel] = useState(null);
   const navigate = useNavigate();
 
   const handleNameChange = (e) => {
@@ -18,7 +23,7 @@ function AddItem() {
 
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
-  }
+  };
 
   const handleDescChange = (e) => {
     setDesc(e.target.value);
@@ -30,7 +35,7 @@ function AddItem() {
     }
   };
 
-  const handleModelChange = (e) => { 
+  const handleModelChange = (e) => {
     if (e.target.files[0]) {
       setModel(e.target.files[0]);
     }
@@ -60,10 +65,9 @@ function AddItem() {
 
       // บันทึกข้อมูลใน Firestore
       await addDoc(collection(db, "product"), {
-        name : name,
+        name: name,
         imageUrl: imageUrl,
-        desc : desc,
-        price : price,
+        price: price,
         model: modelUrl,
         //timestamp: new Date(),
       });
@@ -83,45 +87,31 @@ function AddItem() {
 
   return (
     <>
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>ชื่อสินค้า</label>
-        <input
-          type="text"
-          value={name}
-          onChange={handleNameChange}
-        />
-      </div>
+      {/* {session.isLoggedIn && <Nav />} */}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>ชื่อสินค้า</label>
+          <input type="text" value={name} onChange={handleNameChange} />
+        </div>
 
-      <div>
-        <label>ราคา</label>
-        <input
-          type="text"
-          value={price}
-          onChange={handlePriceChange}
-        />
-      </div>
-
-      <div>
-        <label>คำอธิบายสินค้า</label>
-        <input
-          type="text"
-          value={desc}
-          onChange={handleDescChange}
-        />
-      </div>
-      
-      <div>
-        <label>อัปโหลดรูปภาพ :</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />  {}
-      </div>
-      <div>
-        <label>อัปโหลด 3D Model :</label>
-        <input type="file" accept=".obj,.glb" onChange={handleModelChange} />  {}
-      </div>
-      <button type="submit">บันทึก</button>
-    </form>
-    
+        <div>
+          <label>ราคา</label>
+          <input type="text" value={price} onChange={handlePriceChange} />
+        </div>
+        <div>
+          <label>คำอธิบายสินค้า</label>
+          <input type="text" value={desc} onChange={handleDescChange} />
+        </div>
+        <div>
+          <label>อัปโหลดรูปภาพ :</label>
+          <input type="file" accept="image/*" onChange={handleImageChange} /> {}
+        </div>
+        <div>
+          <label>อัปโหลด 3D Model :</label>
+          <input type="file" accept=".obj,.glb" onChange={handleModelChange} />
+        </div>
+        <button type="submit">บันทึก</button>
+      </form>
     </>
   );
 }
