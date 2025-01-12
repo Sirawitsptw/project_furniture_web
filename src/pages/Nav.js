@@ -1,17 +1,28 @@
 import React, { useState, useEffect, useContext } from "react";
 import { auth } from "../firebase/config";
 import { SessionContext } from "../App";
+import { useUserAuth } from "../context/UserAuthContext";
+import { useNavigate } from "react-router-dom";
+import HomePage from "./homepage";
 
 function Nav() {
-  const { session, setSession } = useContext(SessionContext);
-  console.log(session);
-  const handleLogout = () => {
-    auth.signOut().then((response) => {
-      setSession({
-        isLoggedIn: false,
-        currentUser: null,
-      });
-    });
+  const { logOut, user } = useUserAuth();
+
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      navigate("/");
+    } catch (err) {
+      console.log(err.message);
+    }
+
+    // auth.signOut().then((response) => {
+    //   setSession({
+    //     isLoggedIn: false,
+    //     currentUser: null,
+    //   });
+    // });
   };
 
   return (
@@ -32,27 +43,15 @@ function Nav() {
               {/* Logo */}
               <div className="flex items-center">
                 <a
-                  href="/"
+                  href="/home"
                   className="text-white text-2xl font-bold hover:text-blue-200 transition-colors duration-300"
                 >
-                  MyApp
+                  HomePage
                 </a>
               </div>
 
               {/* Navigation Links */}
               <div className="flex justify-center space-x-8">
-                <a
-                  href=""
-                  className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
-                >
-                  Home
-                </a>
-                <a
-                  href=""
-                  className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
-                >
-                  Profile
-                </a>
                 <a
                   href="Listdata"
                   className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
@@ -63,7 +62,7 @@ function Nav() {
                   href="AddItem"
                   className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
                 >
-                  Add Product
+                  เพิ่มสินค้า
                 </a>
               </div>
 
@@ -72,7 +71,7 @@ function Nav() {
                 <div className="flex items-center bg-white/10 rounded-full px-4 py-2">
                   <i className="bi bi-person-circle text-2xl text-blue-200 mr-2"></i>
                   <span className="text-blue-100 font-medium truncate max-w-[200px]">
-                    {session.currentUser.email}
+                    {user.email}
                   </span>
                 </div>
 

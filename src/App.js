@@ -5,51 +5,15 @@ import HomePage from "./pages/homepage";
 import Nav from "./pages/Nav";
 import { auth } from "./firebase/config";
 import AddItem from "./pages/additem";
+import { Navigate } from "react-router-dom";
 
 export const SessionContext = createContext();
 
 function App() {
-  const [session, setSession] = useState({
-    isLoggedIn: false,
-    currentUser: null,
-    errorMessage: null,
-  });
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setSession({
-          isLoggedIn: true,
-          currentUser: user,
-          errorMessage: null,
-        });
-      } else {
-        setSession({
-          isLoggedIn: false,
-          currentUser: null,
-          errorMessage: null,
-        });
-      }
-    });
-
-    // Cleanup function to unsubscribe from the auth state listener
-    return () => unsubscribe();
-  }, []);
-
+  const [session, setSession] = useState(0);
   return (
     <>
-      <div className="App">
-        <SessionContext.Provider value={{ session, setSession }}>
-          {session.isLoggedIn ? (
-            <>
-              <Nav />
-              <HomePage />
-            </>
-          ) : (
-            <Login setSession={setSession} />
-          )}
-        </SessionContext.Provider>
-      </div>
+      <Navigate to="/home" />
     </>
   );
 }

@@ -3,10 +3,13 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
+import Login from "./pages/login";
 import reportWebVitals from "./reportWebVitals";
 import AddItem from "./pages/additem";
-import { SessionContext } from "./App";
 import Listdata from "./pages/list";
+import { UserAuthContextProvider } from "./context/UserAuthContext";
+import HomePage from "./pages/homepage";
+import ProtectedRoute from "./auth/protectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -14,10 +17,24 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
+    path: "/home",
+    element: (
+      <ProtectedRoute>
+        <HomePage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
     path: "AddItem",
     element: (
       <>
-        <AddItem />
+        <ProtectedRoute>
+          <AddItem />
+        </ProtectedRoute>
       </>
     ),
   },
@@ -25,7 +42,9 @@ const router = createBrowserRouter([
     path: "Listdata",
     element: (
       <>
-        <Listdata />
+        <ProtectedRoute>
+          <Listdata />
+        </ProtectedRoute>
       </>
     ),
   },
@@ -34,7 +53,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserAuthContextProvider>
+      <RouterProvider router={router} />
+    </UserAuthContextProvider>
   </React.StrictMode>
 );
 

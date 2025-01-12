@@ -1,28 +1,24 @@
 import "./login.css";
 import React, { useState } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useUserAuth } from "../context/UserAuthContext";
 
-function Login({ setSession }) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { logIn } = useUserAuth();
+  let navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
     try {
-      const auth = getAuth();
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      const { user } = response;
-
-      setSession({
-        isLoggedIn: true,
-        currentUser: user,
-      });
-    } catch (error) {
-      setSession({
-        isLoggedIn: false,
-        currentUser: null,
-        errorMessage: error.message,
-      });
-      alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+      await logIn(email, password);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+      console.log(err);
     }
   };
 

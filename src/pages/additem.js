@@ -88,6 +88,7 @@ function AddItem() {
   return (
     <>
       {/* {session.isLoggedIn && <Nav />} */}
+      <Nav />
       <form onSubmit={handleSubmit}>
         <div>
           <label>ชื่อสินค้า</label>
