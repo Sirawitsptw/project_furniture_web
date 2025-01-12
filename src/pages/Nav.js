@@ -46,7 +46,7 @@ function Nav() {
                   href="/home"
                   className="text-white text-2xl font-bold hover:text-blue-200 transition-colors duration-300"
                 >
-                  HomePage
+                  Homepage
                 </a>
               </div>
 
