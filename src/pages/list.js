@@ -32,43 +32,47 @@ function Listdata() {
   }, []);
 
   return (
-    <div className="table-container">
-      {/* Heading for the table */}
-      <h1 className="table-heading">รายการคำสั่งซื้อ</h1>
+    <>
+      <Nav></Nav>
+      <div className="table-container">
+        {/* Heading for the table */}
+        <h1 className="table-heading">รายการคำสั่งซื้อ</h1>
 
-      {data.length > 0 ? (
-        <table className="order-table">
-          <thead>
-            <tr>
-              <th>ลำดับ</th> {/* Add a column for the row number */}
-              <th>ชื่อลูกค้า</th>
-              <th>สินค้า</th>
-              <th>ราคา</th>
-              <th>ที่อยู่</th>
-              <th>การจัดส่ง</th>
-              <th>เบอร์โทรศัพท์</th>
-              <th>เวลาสั่งซื้อ</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((post, index) => (
-              <tr key={post.id}>
-                <td>{index + 1}</td> {/* Display the row number (index + 1) */}
-                <td>{post.nameCustomer}</td>
-                <td>{post.nameOrderProduct}</td>
-                <td>{post.priceOrder}</td>
-                <td>{post.address}</td>
-                <td>{post.deliveryOption}</td>
-                <td>{post.phone}</td>
-                <td>{post.timeOrder}</td>
+        {data.length > 0 ? (
+          <table className="order-table">
+            <thead>
+              <tr>
+                <th>ลำดับ</th> {/* Add a column for the row number */}
+                <th>ชื่อลูกค้า</th>
+                <th>สินค้า</th>
+                <th>ราคา</th>
+                <th>ที่อยู่</th>
+                <th>การจัดส่ง</th>
+                <th>เบอร์โทรศัพท์</th>
+                <th>เวลาสั่งซื้อ</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No data available</p>
-      )}
-    </div>
+            </thead>
+            <tbody>
+              {data.map((post, index) => (
+                <tr key={post.id}>
+                  <td>{index + 1}</td>{" "}
+                  {/* Display the row number (index + 1) */}
+                  <td>{post.nameCustomer}</td>
+                  <td>{post.nameOrderProduct}</td>
+                  <td>{post.priceOrder}</td>
+                  <td>{post.address}</td>
+                  <td>{post.deliveryOption}</td>
+                  <td>{post.phone}</td>
+                  <td>{post.timeOrder}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No data available</p>
+        )}
+      </div>
+    </>
   );
 }
 
