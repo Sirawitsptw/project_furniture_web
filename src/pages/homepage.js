@@ -8,13 +8,13 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../firebase"; // Assuming you have firebase storage setup
+import { storage } from "../firebase";
 import "./homepage.css";
 import Nav from "./Nav";
 
 function HomePage() {
   const [data, setData] = useState([]);
-  const [editData, setEditData] = useState(null); // For editing
+  const [editData, setEditData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -67,26 +67,24 @@ function HomePage() {
         name: editData.name,
         price: editData.price,
         desc: editData.desc,
+        type: editData.type,
         model: editData.model,
       };
 
-      // If a new image is selected, upload it to Firebase Storage
       if (editData.img) {
         const imageRef = ref(storage, `products/${editData.img.name}`);
         await uploadBytes(imageRef, editData.img);
         const imgUrl = await getDownloadURL(imageRef);
-        updatedData.img = imgUrl; // Store the image URL in Firestore
+        updatedData.img = imgUrl;
       }
 
-      // If a new 3D model is selected, upload it to Firebase Storage
       if (editData.modelFile) {
         const modelRef = ref(storage, `products/${editData.modelFile.name}`);
         await uploadBytes(modelRef, editData.modelFile);
         const modelUrl = await getDownloadURL(modelRef);
-        updatedData.model = modelUrl; // Store the model URL in Firestore
+        updatedData.model = modelUrl;
       }
 
-      // Update the Firestore document
       const itemRef = doc(db, "product", editData.id);
       await updateDoc(itemRef, updatedData);
       setData(
@@ -110,14 +108,12 @@ function HomePage() {
           rel="stylesheet"
         />
 
-        {/* Header Section */}
         <div className="py-8 justify-self-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-4 hover:text-indigo-600 transition-colors duration-300">
             สินค้า
           </h1>
         </div>
 
-        {/* Card Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {data.map((post) => (
             <div
@@ -133,7 +129,6 @@ function HomePage() {
                 />
               </div>
 
-              {/* Content */}
               <div className="p-5">
                 <h6 className="mb-3 text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-300">
                   {post.text}
@@ -141,7 +136,6 @@ function HomePage() {
                 <p className="text-gray-600 text-sm mb-4">{post.name}</p>
               </div>
 
-              {/* Buttons */}
               <div className="px-5 pb-5 flex gap-3">
                 <button
                   className="flex-1 bg-green-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-emerald-600 active:bg-emerald-700 transition-colors duration-300 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
@@ -162,7 +156,6 @@ function HomePage() {
           ))}
         </div>
 
-        {/* Edit Modal */}
         {isEditing && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
@@ -199,6 +192,19 @@ function HomePage() {
                     setEditData({ ...editData, desc: e.target.value })
                   }
                 />
+              </label>
+              <label className="block mb-4">
+                หมวดหมู่:
+                <select
+                  className="w-full border px-3 py-2 rounded-lg"
+                  value={editData.type}
+                  onChange={(e) => setEditData({ ...editData, type: e.target.value })}
+                >
+                  <option value="">-- เลือกหมวดหมู่ --</option>
+                  <option value="โต๊ะ">โต๊ะ</option>
+                  <option value="ตู้">ตู้</option>
+                  <option value="เก้าอี้">เก้าอี้</option>
+                </select>
               </label>
               <label className="block mb-4">
                 รูปภาพสินค้า:

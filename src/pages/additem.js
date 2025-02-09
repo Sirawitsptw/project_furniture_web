@@ -13,6 +13,7 @@ function AddItem() {
   const [name, setNameProduct] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
+  const [type, setType] = useState("");
   const [image, setImage] = useState(null);
   const [model, setModel] = useState(null);
   const navigate = useNavigate();
@@ -28,6 +29,10 @@ function AddItem() {
   const handleDescChange = (e) => {
     setDesc(e.target.value);
   };
+
+  const handleTypeChange = (e) => {
+    setType(e.target.value);
+  }
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -45,13 +50,13 @@ function AddItem() {
     e.preventDefault();
 
     try {
-      /*if (!image) {
+      if (!image) {
         throw new Error("กรุณาเลือกไฟล์ภาพ");
-      }*/
+      }
 
-      /*if (!model) {
+      if (!model) {
         throw new Error("กรุณาเลือกไฟล์โมเดล 3D");
-      }*/
+      }
 
       // อัปโหลดไฟล์รูปภาพ
       const imageRef = ref(storage, `images/${image.name}`);
@@ -69,13 +74,15 @@ function AddItem() {
         imageUrl: imageUrl,
         price: price,
         model: modelUrl,
-        desc: desc
+        desc: desc,
+        type: type,
         //timestamp: new Date(),
       });
 
       setNameProduct("");
       setPrice("");
       setDesc("");
+      setType("");
       setImage(null);
       setModel(null);
       alert("อัปโหลดสำเร็จ");
@@ -103,6 +110,15 @@ function AddItem() {
         <div>
           <label>คำอธิบายสินค้า</label>
           <input type="text" value={desc} onChange={handleDescChange} />
+        </div>
+        <div>
+          <label>หมวดหมู่</label>
+            <select value={type} onChange={handleTypeChange}>
+              <option value="">-- เลือกหมวดหมู่ --</option>
+              <option value="โต๊ะ">โต๊ะ</option>
+              <option value="ตู้">ตู้</option>
+              <option value="เก้าอี้">เก้าอี้</option>
+          </select>
         </div>
         <div>
           <label>อัปโหลดรูปภาพ :</label>

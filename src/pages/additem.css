@@ -1,4 +1,3 @@
-/* ตกแต่งฟอร์ม */
 form {
   max-width: 500px;
   margin: 30px auto;
@@ -8,12 +7,10 @@ form {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* จัดการ div ที่ครอบแต่ละ field */
 form > div {
   margin-bottom: 20px;
 }
 
-/* จัดการ label */
 label {
   display: block;
   margin-bottom: 8px;
@@ -22,7 +19,6 @@ label {
   font-size: 0.95rem;
 }
 
-/* จัดการ input ทั้งหมด */
 input[type="text"],
 input[type="file"] {
   width: 100%;
@@ -33,14 +29,12 @@ input[type="file"] {
   transition: border-color 0.3s ease;
 }
 
-/* เมื่อ hover และ focus ที่ input */
 input[type="text"]:hover,
 input[type="text"]:focus {
   border-color: #4f46e5;
   outline: none;
 }
 
-/* ปรับแต่ง input file */
 input[type="file"] {
   padding: 8px;
   background-color: #f8fafc;
@@ -53,7 +47,6 @@ input[type="file"]:hover {
   background-color: #f1f5f9;
 }
 
-/* ตกแต่งปุ่มบันทึก */
 button[type="submit"] {
   width: 100%;
   padding: 12px;
@@ -71,7 +64,6 @@ button[type="submit"]:hover {
   background-color: #4338ca;
 }
 
-/* สำหรับ Responsive */
 @media (max-width: 640px) {
   form {
     margin: 20px;
