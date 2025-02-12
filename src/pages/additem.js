@@ -11,7 +11,7 @@ function AddItem() {
   // const { session, setSession } = useContext(SessionContext);
   // console.log(session);
   const [name, setNameProduct] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState();
   const [desc, setDesc] = useState("");
   const [type, setType] = useState("");
   const [image, setImage] = useState(null);
@@ -50,13 +50,13 @@ function AddItem() {
     e.preventDefault();
 
     try {
-      if (!image) {
-        throw new Error("กรุณาเลือกไฟล์ภาพ");
+      if (!image || !model || !name || !price || !desc || !type) {
+        throw new Error("กรุณาใส่ข้อมูลให้ครบถ้วน");
       }
 
-      if (!model) {
+      /*if (!model) {
         throw new Error("กรุณาเลือกไฟล์โมเดล 3D");
-      }
+      }*/
 
       // อัปโหลดไฟล์รูปภาพ
       const imageRef = ref(storage, `images/${image.name}`);
@@ -68,11 +68,13 @@ function AddItem() {
       await uploadBytes(modelRef, model);
       const modelUrl = await getDownloadURL(modelRef);
 
+      const priceNum = parseInt(price);
+
       // บันทึกข้อมูลใน Firestore
       await addDoc(collection(db, "product"), {
         name: name,
         imageUrl: imageUrl,
-        price: price,
+        price: priceNum,
         model: modelUrl,
         desc: desc,
         type: type,
@@ -80,7 +82,7 @@ function AddItem() {
       });
 
       setNameProduct("");
-      setPrice("");
+      setPrice();
       setDesc("");
       setType("");
       setImage(null);
