@@ -12,10 +12,11 @@ import { storage } from "../firebase";
 import "./homepage.css";
 import Nav from "./Nav";
 
-function HomePage() {
+export default function HomePage() {
   const [data, setData] = useState([]);
   const [editData, setEditData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,6 +100,11 @@ function HomePage() {
     }
   };
 
+  // กรองข้อมูลสินค้าตามหมวดหมู่ที่เลือก
+  const filteredData = selectedCategory
+    ? data.filter((item) => item.type === selectedCategory)
+    : data;
+
   return (
     <>
       <Nav></Nav>
@@ -108,19 +114,28 @@ function HomePage() {
           rel="stylesheet"
         />
 
-        <div className="py-8 justify-self-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4 hover:text-indigo-600 transition-colors duration-300">
+        <div className="py-8 grid grid-cols-3 items-center">
+          <select
+            className="w-40 border px-3 py-2 rounded-lg"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">ทั้งหมด</option>
+            <option value="โต๊ะ">โต๊ะ</option>
+            <option value="ตู้">ตู้</option>
+            <option value="เก้าอี้">เก้าอี้</option>
+          </select>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4 hover:text-indigo-600 transition-colors duration-300 text-center">
             สินค้า
           </h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {data.map((post) => (
+          {filteredData.map((post) => (
             <div
               className="transform hover:scale-105 transition-all duration-300 bg-white rounded-xl shadow-lg hover:shadow-xl border border-gray-100"
               key={post.id}
             >
-              {/* Image Container */}
               <div className="relative h-56 overflow-hidden rounded-t-xl">
                 <img
                   src={post.imageUrl}
@@ -200,7 +215,6 @@ function HomePage() {
                   value={editData.type}
                   onChange={(e) => setEditData({ ...editData, type: e.target.value })}
                 >
-                  <option value="">-- เลือกหมวดหมู่ --</option>
                   <option value="โต๊ะ">โต๊ะ</option>
                   <option value="ตู้">ตู้</option>
                   <option value="เก้าอี้">เก้าอี้</option>
@@ -243,5 +257,3 @@ function HomePage() {
     </>
   );
 }
-
-export default HomePage;

@@ -50,6 +50,8 @@ function Listdata() {
                 <th>การจัดส่ง</th>
                 <th>เบอร์โทรศัพท์</th>
                 <th>เวลาสั่งซื้อ</th>
+                <th>การจัดส่ง</th>
+                <th>ชำระเงิน</th>
               </tr>
             </thead>
             <tbody>
@@ -64,6 +66,13 @@ function Listdata() {
                   <td>{post.deliveryOption}</td>
                   <td>{post.phone}</td>
                   <td>{post.timeOrder}</td>
+                  <td>
+                    <select>
+                      <option value="รอการจัดส่ง">รอการจัดส่ง</option>
+                      <option value="กำลังจัดส่ง">กำลังจัดส่ง</option>
+                      <option value="จัดส่งแล้ว">จัดส่งแล้ว</option>
+                    </select>
+                  </td>
                 </tr>
               ))}
             </tbody>
