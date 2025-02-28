@@ -54,10 +54,6 @@ function AddItem() {
         throw new Error("กรุณาใส่ข้อมูลให้ครบถ้วน");
       }
 
-      /*if (!model) {
-        throw new Error("กรุณาเลือกไฟล์โมเดล 3D");
-      }*/
-
       // อัปโหลดไฟล์รูปภาพ
       const imageRef = ref(storage, `images/${image.name}`);
       await uploadBytes(imageRef, image);

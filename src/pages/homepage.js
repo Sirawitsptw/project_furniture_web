@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  collection,
-  getDocs,
-  doc,
-  deleteDoc,
-  updateDoc,
-} from "firebase/firestore";
+import {collection, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore";
 import { db } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
@@ -66,7 +60,7 @@ export default function HomePage() {
     try {
       let updatedData = {
         name: editData.name,
-        price: editData.price,
+        price: parseInt(editData.price),
         desc: editData.desc,
         type: editData.type,
         model: editData.model,
@@ -100,7 +94,6 @@ export default function HomePage() {
     }
   };
 
-  // กรองข้อมูลสินค้าตามหมวดหมู่ที่เลือก
   const filteredData = selectedCategory
     ? data.filter((item) => item.type === selectedCategory)
     : data;

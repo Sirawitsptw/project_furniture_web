@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
-import "./list.css"; // Assuming you're using an external CSS file for styling
+import {collection, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore";
+import "./list.css"
 import Nav from "./Nav";
 
 function Listdata() {
   const [data, setData] = useState([]);
+  const handleStatusChange = async (postId, newStatus) => {
+    try {
+      const postRef = doc(db, "order", postId);
+      await updateDoc(postRef, { deliveryStatus: newStatus });
+      setData((prevData) =>
+        prevData.map((item) =>
+          item.id === postId ? { ...item, deliveryStatus: newStatus } : item
+        )
+      );
+    } catch (error) {
+      console.error("Error updating deliveryStatus:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,10 +35,7 @@ function Listdata() {
           items.push({ id: doc.id, ...docData });
         });
         setData(items);
-        console.log(items);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
+      } catch (error) {}
     };
 
     fetchData();
@@ -35,14 +45,13 @@ function Listdata() {
     <>
       <Nav></Nav>
       <div className="table-container">
-        {/* Heading for the table */}
         <h1 className="table-heading">รายการคำสั่งซื้อ</h1>
 
         {data.length > 0 ? (
           <table className="order-table">
             <thead>
               <tr>
-                <th>ลำดับ</th> {/* Add a column for the row number */}
+                <th>ลำดับ</th>
                 <th>ชื่อลูกค้า</th>
                 <th>สินค้า</th>
                 <th>ราคา</th>
@@ -58,7 +67,6 @@ function Listdata() {
               {data.map((post, index) => (
                 <tr key={post.id}>
                   <td>{index + 1}</td>{" "}
-                  {/* Display the row number (index + 1) */}
                   <td>{post.nameCustomer}</td>
                   <td>{post.nameOrderProduct}</td>
                   <td>{post.priceOrder}</td>
@@ -67,12 +75,16 @@ function Listdata() {
                   <td>{post.phone}</td>
                   <td>{post.timeOrder}</td>
                   <td>
-                    <select>
-                      <option value="รอการจัดส่ง">รอการจัดส่ง</option>
+                    <select
+                      value={post.deliveryStatus}
+                      onChange={(e) => handleStatusChange(post.id, e.target.value)} 
+                    >
+                      <option value="รอดำเนินการ">รอดำเนินการ</option>
                       <option value="กำลังจัดส่ง">กำลังจัดส่ง</option>
-                      <option value="จัดส่งแล้ว">จัดส่งแล้ว</option>
+                      <option value="จัดส่งสำเร็จ">จัดส่งแล้ว</option>
                     </select>
                   </td>
+                  <td>{post.paymentStatus}</td>
                 </tr>
               ))}
             </tbody>
