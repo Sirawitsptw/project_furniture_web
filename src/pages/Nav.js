@@ -40,7 +40,6 @@ function Nav() {
         <nav className="bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg">
           <div className="container mx-auto px-4 py-3">
             <div className="grid grid-cols-3 items-center">
-              {/* Logo */}
               <div className="flex items-center">
                 <a
                   href="/home"
