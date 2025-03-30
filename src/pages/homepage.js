@@ -167,7 +167,7 @@ export default function HomePage() {
         {isEditing && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-              <h2 className="text-2xl font-bold mb-4">แก้ไขสินค้า</h2>
+              <h2 className="text-2xl font-bold mb-4 text-black">แก้ไขสินค้า</h2>
               <label className="block mb-2">
                 ชื่อสินค้า:
                 <input
