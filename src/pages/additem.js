@@ -16,6 +16,7 @@ function AddItem() {
   const [type, setType] = useState("");
   const [image, setImage] = useState(null);
   const [model, setModel] = useState(null);
+  const [amount, setAmount] = useState(0);
   const navigate = useNavigate();
 
   const handleNameChange = (e) => {
@@ -46,11 +47,16 @@ function AddItem() {
     }
   };
 
+  //อันนี้เพิ่มจำนวน
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      if (!image || !model || !name || !price || !desc || !type) {
+      if (!image || !model || !name || !price || !desc || !type || !amount) {
         throw new Error("กรุณาใส่ข้อมูลให้ครบถ้วน");
       }
 
@@ -74,6 +80,8 @@ function AddItem() {
         model: modelUrl,
         desc: desc,
         type: type,
+        //อันนี้เพิ่มจำนวน
+        amount: amount,
         //timestamp: new Date(),
       });
 
@@ -83,6 +91,8 @@ function AddItem() {
       setType("");
       setImage(null);
       setModel(null);
+      //อันนี้เพิ่มจำนวน
+      setAmount();
       alert("อัปโหลดสำเร็จ");
       navigate("/");
     } catch (error) {
@@ -111,12 +121,23 @@ function AddItem() {
         </div>
         <div>
           <label>หมวดหมู่</label>
-            <select value={type} onChange={handleTypeChange}>
-              <option value="">-- เลือกหมวดหมู่ --</option>
-              <option value="โต๊ะ">โต๊ะ</option>
-              <option value="ตู้">ตู้</option>
-              <option value="เก้าอี้">เก้าอี้</option>
+          <select value={type} onChange={handleTypeChange}>
+            <option value="">-- เลือกหมวดหมู่ --</option>
+            <option value="โต๊ะ">โต๊ะ</option>
+            <option value="ตู้">ตู้</option>
+            <option value="เก้าอี้">เก้าอี้</option>
           </select>
+        </div>
+
+        {/*อันนี้เพิ่มจำนวน*/}
+        <div>
+          <label>เพิ่มจำนวนสินค้า</label>
+          <input
+            type="number"
+            min="0"
+            value={amount}
+            onChange={handleAmountChange}
+          />
         </div>
         <div>
           <label>อัปโหลดรูปภาพ :</label>

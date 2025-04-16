@@ -64,6 +64,7 @@ export default function HomePage() {
         desc: editData.desc,
         type: editData.type,
         model: editData.model,
+        amount: editData.amount,
       };
 
       if (editData.img) {
@@ -137,13 +138,15 @@ export default function HomePage() {
                 />
               </div>
 
-              <div className="p-5">
+              <div className="pt-5">
                 <h6 className="mb-3 text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-300">
                   {post.text}
                 </h6>
-                <p className="text-gray-600 text-sm mb-4">{post.name}</p>
+                <p className="text-gray-600 text-xl mb-4">{post.name}</p>
               </div>
-
+              <div className="px-1 pb-5 flex gap-3 justify-self-center">
+                <p className="text-gray-600 text-sm ">จำนวน {post.amount} ชิ้น</p>
+              </div>
               <div className="px-5 pb-5 flex gap-3">
                 <button
                   className="flex-1 bg-green-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-emerald-600 active:bg-emerald-700 transition-colors duration-300 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
@@ -212,6 +215,18 @@ export default function HomePage() {
                   <option value="ตู้">ตู้</option>
                   <option value="เก้าอี้">เก้าอี้</option>
                 </select>
+              </label>
+              <label className="block mb-4">
+                จำนวนสินค้า:
+                <input
+                  type="number"
+                  className="w-full border px-3 py-2 rounded-lg"
+                  min={0}
+                  value={editData.amount}
+                  onChange={(e) =>
+                    setEditData({ ...editData, amount: e.target.value })
+                  }
+                />
               </label>
               <label className="block mb-4">
                 รูปภาพสินค้า:
