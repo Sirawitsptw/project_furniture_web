@@ -69,6 +69,8 @@ function AddItem() {
       const modelRef = ref(storage, `models/${model.name}`);
       await uploadBytes(modelRef, model);
       const modelUrl = await getDownloadURL(modelRef);
+      
+      const amountNum = parseInt(amount);
 
       const priceNum = parseInt(price);
 
@@ -81,7 +83,7 @@ function AddItem() {
         desc: desc,
         type: type,
         //อันนี้เพิ่มจำนวน
-        amount: amount,
+        amount: amountNum,
         //timestamp: new Date(),
       });
 

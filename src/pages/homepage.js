@@ -64,7 +64,7 @@ export default function HomePage() {
         desc: editData.desc,
         type: editData.type,
         model: editData.model,
-        amount: editData.amount,
+        amount: parseInt(editData.amount),
       };
 
       if (editData.img) {
