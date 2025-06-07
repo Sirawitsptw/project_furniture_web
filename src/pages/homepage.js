@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {collection, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
@@ -63,19 +69,22 @@ export default function HomePage() {
         price: parseInt(editData.price),
         desc: editData.desc,
         type: editData.type,
-        model: editData.model,
         amount: parseInt(editData.amount),
+        width: parseFloat(editData.width),
+        height: parseFloat(editData.height),
+        depth: parseFloat(editData.depth),
+        longest: parseFloat(editData.longest),
       };
 
-      if (editData.img) {
-        const imageRef = ref(storage, `products/${editData.img.name}`);
+      if (editData.img && editData.img instanceof File) {
+        const imageRef = ref(storage, `images/${editData.img.name}`);
         await uploadBytes(imageRef, editData.img);
         const imgUrl = await getDownloadURL(imageRef);
-        updatedData.img = imgUrl;
+        updatedData.imageUrl = imgUrl;
       }
 
-      if (editData.modelFile) {
-        const modelRef = ref(storage, `products/${editData.modelFile.name}`);
+      if (editData.modelFile && editData.modelFile instanceof File) {
+        const modelRef = ref(storage, `models/${editData.modelFile.name}`);
         await uploadBytes(modelRef, editData.modelFile);
         const modelUrl = await getDownloadURL(modelRef);
         updatedData.model = modelUrl;
@@ -83,6 +92,7 @@ export default function HomePage() {
 
       const itemRef = doc(db, "product", editData.id);
       await updateDoc(itemRef, updatedData);
+      
       setData(
         data.map((item) =>
           item.id === editData.id ? { ...item, ...updatedData } : item
@@ -92,6 +102,7 @@ export default function HomePage() {
       alert("Item updated successfully!");
     } catch (error) {
       console.error("Error updating item: ", error);
+      alert(`Error updating item: ${error.message}`);
     }
   };
 
@@ -138,14 +149,10 @@ export default function HomePage() {
                 />
               </div>
 
-              <div className="pt-5">
-                <h6 className="mb-3 text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-300">
-                  {post.text}
-                </h6>
-                <p className="text-gray-600 text-xl mb-4">{post.name}</p>
-              </div>
-              <div className="px-1 pb-5 flex gap-3 justify-self-center">
-                <p className="text-gray-600 text-sm ">จำนวน {post.amount} ชิ้น</p>
+              <div className="p-5">
+                <p className="text-gray-800 text-xl font-semibold mb-2">{post.name}</p>
+                 <p className="text-indigo-500 text-lg font-bold">฿{post.price}</p>
+                <p className="text-gray-600 text-sm mt-2">จำนวน {post.amount} ชิ้น</p>
               </div>
               <div className="px-5 pb-5 flex gap-3">
                 <button
@@ -168,93 +175,65 @@ export default function HomePage() {
         </div>
 
         {isEditing && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full overflow-y-auto max-h-[90vh]">
               <h2 className="text-2xl font-bold mb-4 text-black">แก้ไขสินค้า</h2>
-              <label className="block mb-2">
+              <label className="block mb-2 text-black">
                 ชื่อสินค้า:
-                <input
-                  type="text"
-                  className="w-full border px-3 py-2 rounded-lg"
-                  value={editData.name}
-                  onChange={(e) =>
-                    setEditData({ ...editData, name: e.target.value })
-                  }
-                />
+                <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.name} onChange={(e) => setEditData({ ...editData, name: e.target.value })}/>
               </label>
-              <label className="block mb-4">
+              <label className="block mb-4 text-black">
                 ราคา:
-                <input
-                  type="text"
-                  className="w-full border px-3 py-2 rounded-lg"
-                  value={editData.price}
-                  onChange={(e) =>
-                    setEditData({ ...editData, price: e.target.value })
-                  }
-                />
+                <input type="number" className="w-full border px-3 py-2 rounded-lg" value={editData.price} onChange={(e) => setEditData({ ...editData, price: e.target.value })} />
               </label>
-              <label className="block mb-4">
+              <label className="block mb-4 text-black">
                 คำอธิบายสินค้า:
-                <input
-                  type="text"
-                  className="w-full border px-3 py-2 rounded-lg"
-                  value={editData.desc}
-                  onChange={(e) =>
-                    setEditData({ ...editData, desc: e.target.value })
-                  }
-                />
+                <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.desc} onChange={(e) => setEditData({ ...editData, desc: e.target.value })}/>
               </label>
-              <label className="block mb-4">
+              <label className="block mb-4 text-black">
                 หมวดหมู่:
-                <select
-                  className="w-full border px-3 py-2 rounded-lg"
-                  value={editData.type}
-                  onChange={(e) => setEditData({ ...editData, type: e.target.value })}
-                >
+                <select className="w-full border px-3 py-2 rounded-lg" value={editData.type} onChange={(e) => setEditData({ ...editData, type: e.target.value })}>
                   <option value="โต๊ะ">โต๊ะ</option>
                   <option value="ตู้">ตู้</option>
                   <option value="เก้าอี้">เก้าอี้</option>
                 </select>
               </label>
-              <label className="block mb-4">
+              <label className="block mb-4 text-black">
                 จำนวนสินค้า:
-                <input
-                  type="number"
-                  className="w-full border px-3 py-2 rounded-lg"
-                  min={0}
-                  value={editData.amount}
-                  onChange={(e) =>
-                    setEditData({ ...editData, amount: e.target.value })
-                  }
-                />
+                <input type="number" className="w-full border px-3 py-2 rounded-lg" min={0} value={editData.amount} onChange={(e) => setEditData({ ...editData, amount: e.target.value })}/>
               </label>
-              <label className="block mb-4">
-                รูปภาพสินค้า:
-                <input
-                  type="file"
-                  className="w-full border px-3 py-2 rounded-lg"
-                  onChange={(e) => handleFileChange(e, "img")}
-                />
+
+              <label className="block mb-4 text-black">
+                ความกว้าง (เมตร):
+                <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.width} onChange={(e) => setEditData({ ...editData, width: e.target.value })}/>
               </label>
-              <label className="block mb-4">
-                3D Model:
-                <input
-                  type="file"
-                  className="w-full border px-3 py-2 rounded-lg"
-                  onChange={(e) => handleFileChange(e, "modelFile")}
-                />
+              <label className="block mb-4 text-black">
+                ความสูง (เมตร):
+                <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.height} onChange={(e) => setEditData({ ...editData, height: e.target.value })}/>
               </label>
-              <div className="flex justify-end gap-3">
-                <button
-                  className="bg-gray-300 text-gray-800 py-2 px-4 rounded-lg"
-                  onClick={() => setIsEditing(false)}
-                >
+              <label className="block mb-4 text-black">
+                ความลึก (เมตร):
+                <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.depth} onChange={(e) => setEditData({ ...editData, depth: e.target.value })}/>
+              </label>
+              <label className="block mb-4 text-black">
+                ด้านที่ยาวที่สุด (เมตร):
+                <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.longest} onChange={(e) => setEditData({ ...editData, longest: e.target.value })}/>
+              </label>
+              
+              <label className="block mb-4 text-black">
+                อัปโหลดรูปภาพใหม่ (ถ้าต้องการเปลี่ยน):
+                <input type="file" accept="image/*" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "img")}/>
+              </label>
+              <label className="block mb-4 text-black">
+                อัปโหลด 3D Model ใหม่ (ถ้าต้องการเปลี่ยน):
+                <input type="file" accept=".glb" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "modelFile")}/>
+              </label>
+
+              <div className="flex justify-end gap-3 mt-4">
+                <button className="bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400" onClick={() => setIsEditing(false)}>
                   Cancel
                 </button>
-                <button
-                  className="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600"
-                  onClick={handleSaveEdit}
-                >
+                <button className="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600" onClick={handleSaveEdit}>
                   Save
                 </button>
               </div>
