@@ -1,6 +1,6 @@
-import React, { useState, useEffect, createContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import Login from "./pages/login";
@@ -11,7 +11,7 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 import HomePage from "./pages/homepage";
 import ProtectedRoute from "./auth/protectedRoute";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
@@ -29,23 +29,19 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "AddItem",
+    path: "/AddItem",
     element: (
-      <>
-        <ProtectedRoute>
-          <AddItem />
-        </ProtectedRoute>
-      </>
+      <ProtectedRoute>
+        <AddItem />
+      </ProtectedRoute>
     ),
   },
   {
-    path: "Listdata",
+    path: "/Listdata",
     element: (
-      <>
-        <ProtectedRoute>
-          <Listdata />
-        </ProtectedRoute>
-      </>
+      <ProtectedRoute>
+        <Listdata />
+      </ProtectedRoute>
     ),
   },
 ]);
