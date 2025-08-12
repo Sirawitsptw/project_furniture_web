@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import "./list.css";
 import Nav from "./Nav";
 
 function Listdata() {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
+
+  const handleRowClick = (order) => {
+    navigate("/logorder", { state: { order } });
+  };
 
   const handleStatusChange = async (postId, newStatus) => {
     try {
@@ -72,7 +78,12 @@ function Listdata() {
             </thead>
             <tbody>
               {data.map((post, index) => (
-                <tr key={post.id}>
+                <tr
+                  key={post.id}
+                  onClick={() => handleRowClick(post)}
+                  style={{ cursor: 'pointer' }}
+                  className="clickable-row"
+                >
                   <td>{index + 1}</td>
                   <td>{post.nameCustomer}</td>
                   <td>{post.nameOrderProduct}</td>
@@ -84,7 +95,11 @@ function Listdata() {
                   <td>{post.deliveryStatus}</td>
                   <td>{post.paymentMethod}</td>
                   <td>{post.paymentStatus}</td>
-                  <td>{post.cardNumber}</td>
+                  <td>
+                    {post.cardNumber
+                      ? "**** **** **** " + post.cardNumber.slice(-4)
+                      : "-"}
+                  </td>
                   <td>{post.nameCardCustomer || "-"}</td>
                   <td>{post.expMonth || "-"}</td>
                   <td>{post.expYear || "-"}</td>

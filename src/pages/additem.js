@@ -16,11 +16,10 @@ function AddItem() {
   const [model, setModel] = useState(null);
   const [amount, setAmount] = useState(0);
   
-  // --- State ที่เพิ่มเข้ามา ---
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [depth, setDepth] = useState(0);
-  const [longest, setLongest] = useState(0);
+  // const [width, setWidth] = useState(0);
+  // const [height, setHeight] = useState(0);
+  // const [depth, setDepth] = useState(0);
+  // const [longest, setLongest] = useState(0);
   
   const navigate = useNavigate();
 
@@ -30,11 +29,10 @@ function AddItem() {
   const handleTypeChange = (e) => setType(e.target.value);
   const handleAmountChange = (e) => setAmount(e.target.value);
 
-  // --- Handlers ที่เพิ่มเข้ามา ---
-  const handleWidthChange = (e) => setWidth(e.target.value);
-  const handleHeightChange = (e) => setHeight(e.target.value);
-  const handleDepthChange = (e) => setDepth(e.target.value);
-  const handleLongestChange = (e) => setLongest(e.target.value);
+  // const handleWidthChange = (e) => setWidth(e.target.value);
+  // const handleHeightChange = (e) => setHeight(e.target.value);
+  // const handleDepthChange = (e) => setDepth(e.target.value);
+  // const handleLongestChange = (e) => setLongest(e.target.value);
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) setImage(e.target.files[0]);
@@ -49,7 +47,7 @@ function AddItem() {
 
     try {
       // --- เพิ่มการตรวจสอบ field ใหม่ ---
-      if (!image || !model || !name || !price || !desc || !type || !amount || !width || !height || !depth || !longest) {
+      if (!image || !model || !name || !price || !desc || !type || !amount) {
         throw new Error("กรุณาใส่ข้อมูลให้ครบถ้วน");
       }
 
@@ -66,10 +64,10 @@ function AddItem() {
       // --- แปลงค่าทั้งหมดเป็นตัวเลข (ใช้ parseFloat เพื่อรองรับทศนิยม) ---
       const amountNum = parseInt(amount);
       const priceNum = parseInt(price);
-      const widthNum = parseFloat(width);
-      const heightNum = parseFloat(height);
-      const depthNum = parseFloat(depth);
-      const longestNum = parseFloat(longest);
+      // const widthNum = parseFloat(width);
+      // const heightNum = parseFloat(height);
+      // const depthNum = parseFloat(depth);
+      // const longestNum = parseFloat(longest);
 
       // บันทึกข้อมูลใน Firestore
       await addDoc(collection(db, "product"), {
@@ -80,12 +78,10 @@ function AddItem() {
         desc: desc,
         type: type,
         amount: amountNum,
-        // --- เพิ่ม fields ใหม่ลง Firestore ---
-        // (ใช้ชื่อ field ให้ตรงกับใน product_model.dart ของ Flutter)
-        width_m: widthNum,
-        height_m: heightNum,
-        depth_m: depthNum,
-        longest_dimension_m: longestNum,
+        // width_m: widthNum,
+        // height_m: heightNum,
+        // depth_m: depthNum,
+        // longest_dimension_m: longestNum,
       });
 
       // --- เคลียร์ค่าในฟอร์ม ---
@@ -96,10 +92,10 @@ function AddItem() {
       setImage(null);
       setModel(null);
       setAmount(0);
-      setWidth(0);
-      setHeight(0);
-      setDepth(0);
-      setLongest(0);
+      // setWidth(0);
+      // setHeight(0);
+      // setDepth(0);
+      // setLongest(0);
       
       alert("อัปโหลดสำเร็จ");
       navigate("/");
@@ -140,8 +136,7 @@ function AddItem() {
           <input type="number" min="0" value={amount} onChange={handleAmountChange}/>
         </div>
 
-        {/* --- Input Fields ที่เพิ่มเข้ามา --- */}
-        <div>
+        {/* <div>
           <label>ความกว้าง (เมตร)</label>
           <input type="number" step="0.01" min="0" value={width} onChange={handleWidthChange} />
         </div>
@@ -156,7 +151,7 @@ function AddItem() {
         <div>
           <label>ด้านที่ยาวที่สุด (เมตร)</label>
           <input type="number" step="0.01" min="0" value={longest} onChange={handleLongestChange} />
-        </div>
+        </div> */}
         
         <div>
           <label>อัปโหลดรูปภาพ :</label>

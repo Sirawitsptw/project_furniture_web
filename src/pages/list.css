@@ -1,9 +1,10 @@
 /* Container for the table */
 .table-container {
     padding: 20px;
-    max-width: 1200px;
+    max-width: 1700px; /* เพิ่ม max-width กลับมาเพื่อจำกัดความกว้าง */
+    width: 100%; 
     margin: 0 auto;
-    overflow-x: auto; /* Allows horizontal scrolling if table is too wide */
+    overflow-x: auto; /* เพิ่ม scroll กลับมาเพื่อรองรับหน้าจอเล็ก */
 }
 
 /* Table heading styling */
@@ -25,10 +26,12 @@
 
 .order-table th,
 .order-table td {
-    padding: 12px 15px;
+    padding: 12px 14px; /* เพิ่ม padding เล็กน้อย */
     text-align: left;
     border: 1px solid #ddd;
-    font-size: 14px;
+    font-size: 14px; /* เพิ่มขนาดฟอนต์จาก 12px เป็น 14px */
+    word-wrap: break-word; /* ให้ข้อความตัดบรรทัดได้ */
+    overflow-wrap: break-word;
 }
 
 .order-table th {
@@ -42,6 +45,20 @@
 
 .order-table tr:hover {
     background-color: #f1f1f1;
+}
+
+/* Style for clickable rows */
+.clickable-row {
+    transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+    background-color: #e8f4fd !important;
+    transform: scale(1.01);
+}
+
+.clickable-row:active {
+    background-color: #d1ecf1 !important;
 }
 
 /* No data message */

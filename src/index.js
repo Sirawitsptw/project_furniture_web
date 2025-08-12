@@ -7,6 +7,7 @@ import Login from "./pages/login";
 import reportWebVitals from "./reportWebVitals";
 import AddItem from "./pages/additem";
 import Listdata from "./pages/list";
+import LogOrder from "./pages/logorder";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import HomePage from "./pages/homepage";
 import ProtectedRoute from "./auth/protectedRoute";
@@ -41,6 +42,14 @@ const router = createHashRouter([
     element: (
       <ProtectedRoute>
         <Listdata />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/logorder",
+    element: (
+      <ProtectedRoute>
+        <LogOrder />
       </ProtectedRoute>
     ),
   },
