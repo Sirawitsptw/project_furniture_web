@@ -203,7 +203,7 @@ export default function HomePage() {
                 <input type="number" className="w-full border px-3 py-2 rounded-lg" min={0} value={editData.amount} onChange={(e) => setEditData({ ...editData, amount: e.target.value })}/>
               </label>
 
-              <label className="block mb-4 text-black">
+              {/* <label className="block mb-4 text-black">
                 ความกว้าง (เมตร):
                 <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.width} onChange={(e) => setEditData({ ...editData, width: e.target.value })}/>
               </label>
@@ -218,7 +218,7 @@ export default function HomePage() {
               <label className="block mb-4 text-black">
                 ด้านที่ยาวที่สุด (เมตร):
                 <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.longest} onChange={(e) => setEditData({ ...editData, longest: e.target.value })}/>
-              </label>
+              </label> */}
               
               <label className="block mb-4 text-black">
                 อัปโหลดรูปภาพใหม่ (ถ้าต้องการเปลี่ยน):

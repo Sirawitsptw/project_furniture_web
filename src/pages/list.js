@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./list.css";
 import Nav from "./Nav";
@@ -15,11 +15,37 @@ function Listdata() {
 
   const handleStatusChange = async (postId, newStatus) => {
     try {
+      const currentOrder = data.find(item => item.id === postId);
+      const currentTime = serverTimestamp();
+      
+      // สร้าง log entry ใหม่
+      const newLogEntry = {
+        status: newStatus,
+        time: currentTime
+      };
+      
+      // เพิ่ม log เข้าไปใน deliveryTimeLog
+      const updatedLog = currentOrder.deliveryTimeLog 
+        ? [...currentOrder.deliveryTimeLog, newLogEntry]
+        : [newLogEntry];
+      
       const postRef = doc(db, "order", postId);
-      await updateDoc(postRef, { deliveryStatus: newStatus });
+      await updateDoc(postRef, { 
+        deliveryStatus: newStatus,
+        deliveryTimeNow: currentTime,
+        deliveryTimeLog: updatedLog
+      });
+      
       setData((prevData) =>
         prevData.map((item) =>
-          item.id === postId ? { ...item, deliveryStatus: newStatus } : item
+          item.id === postId 
+            ? { 
+                ...item, 
+                deliveryStatus: newStatus,
+                deliveryTimeNow: currentTime,
+                deliveryTimeLog: updatedLog
+              } 
+            : item
         )
       );
     } catch (error) {

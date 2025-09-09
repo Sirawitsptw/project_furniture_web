@@ -1,159 +1,89 @@
+/* Basic Layout */
 .log-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: sans-serif;
 }
 
-.log-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 20px;
+/* Back Button */
+.back-btn {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
-.log-heading {
-    color: #333;
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0;
+.back-btn:hover {
+  background-color: #e0e0e0;
 }
 
-.back-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+/* Status Info */
+.current-status, 
+.last-updated {
+  margin-bottom: 10px;
 }
 
-.back-button:hover {
-    background-color: #0056b3;
+/* Order Timeline */
+.log-history {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0;
 }
 
-/* Order Details */
-.order-details {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+.log-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
 }
 
-.detail-section {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Status Display */
+.log-status {
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-weight: 500;
 }
 
-.detail-section h2 {
-    color: #495057;
-    font-size: 20px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #dee2e6;
-    padding-bottom: 8px;
+/* Status Colors - Using classes instead of :contains */
+.log-status[data-status="รอดำเนินการ"] {
+  background-color: #fff3cd;
+  color: #856404;
 }
 
-.detail-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 15px;
+.log-status[data-status="กำลังจัดส่ง"] {
+  background-color: #cce5ff;
+  color: #004085;
 }
 
-.detail-item {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.log-status[data-status="จัดส่งสำเร็จ"] {
+  background-color: #d4edda;
+  color: #155724;
 }
 
-.detail-item label {
-    font-weight: bold;
-    color: #6c757d;
-    font-size: 14px;
+/* No History Message */
+.no-history {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #666;
 }
 
-.detail-item span {
-    background-color: white;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #dee2e6;
-    font-size: 16px;
-    color: #495057;
-}
-
-/* Status Styling */
-.status {
-    padding: 8px 12px !important;
-    border-radius: 20px !important;
-    font-weight: bold !important;
-    text-align: center;
-    border: none !important;
-}
-
-.status.pending,
-.status.รอดำเนินการ {
-    background-color: #fff3cd !important;
-    color: #856404 !important;
-}
-
-.status.processing,
-.status.กำลังดำเนินการ {
-    background-color: #d1ecf1 !important;
-    color: #0c5460 !important;
-}
-
-.status.completed,
-.status.สำเร็จ,
-.status.เสร็จสิ้น {
-    background-color: #d4edda !important;
-    color: #155724 !important;
-}
-
-.status.paid,
-.status.ชำระแล้ว {
-    background-color: #d4edda !important;
-    color: #155724 !important;
-}
-
-.status.unpaid,
-.status.ยังไม่ชำระ {
-    background-color: #f8d7da !important;
-    color: #721c24 !important;
-}
-
-/* Order ID */
-.order-id {
-    background-color: #e9ecef;
-    padding: 15px;
-    border-radius: 5px;
-    font-family: 'Courier New', monospace;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    color: #495057;
-    border: 2px dashed #adb5bd;
-}
-
-/* Responsive Design */
+/* Mobile Adjustments */
 @media (max-width: 768px) {
-    .log-header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    
-    .log-heading {
-        font-size: 24px;
-    }
-    
-    .detail-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .log-container {
-        padding: 15px;
-    }
+  .log-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .log-status {
+    margin-top: 10px;
+  }
 }
