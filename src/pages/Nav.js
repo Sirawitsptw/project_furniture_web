@@ -36,7 +36,7 @@ function Nav() {
                   to="/home"
                   className="text-white text-2xl font-bold hover:text-blue-200 transition-colors duration-300"
                 >
-                  Homepage
+                  หน้าหลัก
                 </Link>
               </div>
 
@@ -70,7 +70,7 @@ function Nav() {
                   onClick={handleLogout}
                 >
                   <i className="bi bi-box-arrow-left text-xl mr-2"></i>
-                  <span className="font-medium">Logout</span>
+                  <span className="font-medium">ออกจากระบบ</span>
                 </button>
               </div>
             </div>
