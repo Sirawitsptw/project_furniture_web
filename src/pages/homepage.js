@@ -160,14 +160,14 @@ export default function HomePage() {
                   type="button"
                   onClick={() => handleEdit(post)}
                 >
-                  Edit
+                  แก้ไข
                 </button>
                 <button
                   className="flex-1 bg-red-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-red-600 active:bg-red-700 transition-colors duration-300 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   type="button"
                   onClick={() => handleDelete(post.id)}
                 >
-                  Delete
+                  ลบ
                 </button>
               </div>
             </div>
