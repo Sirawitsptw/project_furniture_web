@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/project_furniture_web/static/css/main.5dd4c6ad.css",
-    "main.js": "/project_furniture_web/static/js/main.59829e61.js",
+    "main.css": "/project_furniture_web/static/css/main.dedbf3e4.css",
+    "main.js": "/project_furniture_web/static/js/main.271fefdc.js",
     "static/js/453.2a82e7ac.chunk.js": "/project_furniture_web/static/js/453.2a82e7ac.chunk.js",
     "index.html": "/project_furniture_web/index.html",
-    "main.5dd4c6ad.css.map": "/project_furniture_web/static/css/main.5dd4c6ad.css.map",
-    "main.59829e61.js.map": "/project_furniture_web/static/js/main.59829e61.js.map",
+    "main.dedbf3e4.css.map": "/project_furniture_web/static/css/main.dedbf3e4.css.map",
+    "main.271fefdc.js.map": "/project_furniture_web/static/js/main.271fefdc.js.map",
     "453.2a82e7ac.chunk.js.map": "/project_furniture_web/static/js/453.2a82e7ac.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5dd4c6ad.css",
-    "static/js/main.59829e61.js"
+    "static/css/main.dedbf3e4.css",
+    "static/js/main.271fefdc.js"
   ]
 }
