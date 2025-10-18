@@ -54,9 +54,14 @@ function Nav() {
                 >
                   เพิ่มสินค้า
                 </Link>
+                <Link
+                  to="/AddStock"
+                  className="text-white hover:text-blue-200 font-medium transition-colors duration-300 py-2 border-b-2 border-transparent hover:border-blue-200"
+                >
+                  เพิ่มสต็อกสินค้า
+                </Link>
               </div>
 
-              {/* User Info & Logout */}
               <div className="flex items-center justify-end space-x-4">
                 <div className="flex items-center bg-white/10 rounded-full px-4 py-2">
                   <i className="bi bi-person-circle text-2xl text-blue-200 mr-2"></i>

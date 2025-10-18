@@ -11,6 +11,7 @@ import LogOrder from "./pages/logorder";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import HomePage from "./pages/homepage";
 import ProtectedRoute from "./auth/protectedRoute";
+import AddStock from "./pages/addstock";
 
 const router = createHashRouter([
   {
@@ -50,6 +51,14 @@ const router = createHashRouter([
     element: (
       <ProtectedRoute>
         <LogOrder />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/AddStock",
+    element: (
+      <ProtectedRoute>
+        <AddStock />
       </ProtectedRoute>
     ),
   },

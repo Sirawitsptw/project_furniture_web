@@ -92,7 +92,7 @@ export default function HomePage() {
 
       const itemRef = doc(db, "product", editData.id);
       await updateDoc(itemRef, updatedData);
-      
+
       setData(
         data.map((item) =>
           item.id === editData.id ? { ...item, ...updatedData } : item
@@ -151,7 +151,7 @@ export default function HomePage() {
 
               <div className="p-5">
                 <p className="text-gray-800 text-xl font-semibold mb-2">{post.name}</p>
-                 <p className="text-indigo-500 text-lg font-bold">฿{post.price}</p>
+                <p className="text-indigo-500 text-lg font-bold">฿{post.price}</p>
                 <p className="text-gray-600 text-sm mt-2">จำนวน {post.amount} ชิ้น</p>
               </div>
               <div className="px-5 pb-5 flex gap-3">
@@ -180,7 +180,7 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold mb-4 text-black">แก้ไขสินค้า</h2>
               <label className="block mb-2 text-black">
                 ชื่อสินค้า:
-                <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.name} onChange={(e) => setEditData({ ...editData, name: e.target.value })}/>
+                <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.name} onChange={(e) => setEditData({ ...editData, name: e.target.value })} />
               </label>
               <label className="block mb-4 text-black">
                 ราคา:
@@ -188,7 +188,7 @@ export default function HomePage() {
               </label>
               <label className="block mb-4 text-black">
                 คำอธิบายสินค้า:
-                <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.desc} onChange={(e) => setEditData({ ...editData, desc: e.target.value })}/>
+                <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.desc} onChange={(e) => setEditData({ ...editData, desc: e.target.value })} />
               </label>
               <label className="block mb-4 text-black">
                 หมวดหมู่:
@@ -200,7 +200,7 @@ export default function HomePage() {
               </label>
               <label className="block mb-4 text-black">
                 จำนวนสินค้า:
-                <input type="number" className="w-full border px-3 py-2 rounded-lg" min={0} value={editData.amount} onChange={(e) => setEditData({ ...editData, amount: e.target.value })}/>
+                <input type="number" className="w-full border px-3 py-2 rounded-lg bg-gray-200" min={0} value={editData.amount} readOnly />
               </label>
 
               {/* <label className="block mb-4 text-black">
@@ -219,14 +219,14 @@ export default function HomePage() {
                 ด้านที่ยาวที่สุด (เมตร):
                 <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.longest} onChange={(e) => setEditData({ ...editData, longest: e.target.value })}/>
               </label> */}
-              
+
               <label className="block mb-4 text-black">
                 อัปโหลดรูปภาพใหม่ (ถ้าต้องการเปลี่ยน):
-                <input type="file" accept="image/*" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "img")}/>
+                <input type="file" accept="image/*" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "img")} />
               </label>
               <label className="block mb-4 text-black">
                 อัปโหลด 3D Model ใหม่ (ถ้าต้องการเปลี่ยน):
-                <input type="file" accept=".glb" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "modelFile")}/>
+                <input type="file" accept=".glb" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "modelFile")} />
               </label>
 
               <div className="flex justify-end gap-3 mt-4">
