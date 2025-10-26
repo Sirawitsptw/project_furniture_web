@@ -92,7 +92,7 @@ function Listdata() {
 
   // utility
   const normalizeStatus = (s) => s || "รอดำเนินการ";
-  const isCompleted = (s) => normalizeStatus(s) === "จัดส่งสำเร็จ";
+  const isCompleted = (s) => normalizeStatus(s) === "จัดส่งสำเร็จ" || normalizeStatus(s) === "ลูกค้ารับสินค้าแล้ว";
   const isNewOrder = (s) => normalizeStatus(s) === "รอดำเนินการ";
   const isShipping = (s) => normalizeStatus(s) === "กำลังจัดส่ง";
   const isFailed = (s) => normalizeStatus(s) === "จัดส่งไม่สำเร็จ";
