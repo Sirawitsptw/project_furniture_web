@@ -124,7 +124,7 @@ function Listdata() {
   const renderStatusChip = (statusRaw) => {
     const s = normalizeStatus(statusRaw);
     const color =
-      s === "จัดส่งสำเร็จ"
+      s === "จัดส่งสำเร็จ" || s === "ลูกค้ารับสินค้าแล้ว"
         ? "bg-green-100 text-green-700 border-green-300"
         : s === "กำลังจัดส่ง"
           ? "bg-blue-100 text-blue-700 border-blue-300"
@@ -222,6 +222,7 @@ function Listdata() {
                 <th>ชื่อเจ้าของบัตร</th>
                 <th>เดือนหมดอายุ</th>
                 <th>ปีหมดอายุ</th>
+                <th>ผู้จัดส่ง</th>
               </tr>
             </thead>
             <tbody>
@@ -248,9 +249,10 @@ function Listdata() {
                       ? "**** **** **** " + post.cardNumber.slice(-4)
                       : "-"}
                   </td>
-                  <td>{post.nameCardCustomer || "-"}</td>
+                  <td>{post.nameCard || "-"}</td>
                   <td>{post.expMonth || "-"}</td>
                   <td>{post.expYear || "-"}</td>
+                  <td>{post.rider || "-"  }</td>
                 </tr>
               ))}
             </tbody>
