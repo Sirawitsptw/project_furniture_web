@@ -92,7 +92,7 @@ function LogOrder() {
       list.push({ time: order.shippingAt, status: "กำลังจัดส่ง" });
     }
     if (order?.deliveredAt) {
-      list.push({ time: order.deliveredAt, status: "จัดส่งสำเร็จ" });
+      list.push({ time: order.deliveredAt, status: "จัดส่งสำเร็จ" || "ลูกค้ารับสินค้าแล้ว" });
     }
     // เรียงตามเวลา
     list.sort((a, b) => {

@@ -211,6 +211,7 @@ function Listdata() {
                 <th>ชื่อลูกค้า</th>
                 <th>สินค้า</th>
                 <th>ราคา</th>
+                <th>จำนวน</th>
                 <th>ที่อยู่</th>
                 <th>จัดส่ง</th>
                 <th>เบอร์โทร</th>
@@ -237,6 +238,7 @@ function Listdata() {
                   <td>{post.nameCustomer}</td>
                   <td>{post.nameOrderProduct}</td>
                   <td>{post.priceOrder}</td>
+                  <td>{post.quantityOrder}</td>
                   <td>{post.address}</td>
                   <td>{post.deliveryOption}</td>
                   <td>{post.phone}</td>
