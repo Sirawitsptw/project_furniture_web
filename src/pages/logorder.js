@@ -20,7 +20,7 @@ function LogOrder() {
     }
   }, [location.state?.order, navigate]);
 
-  // subscribe เอกสาร order/{id} แบบ realtime (ไม่มี subcollection แล้ว)
+  // subscribe เอกสาร order/{id} แบบ realtime
   useEffect(() => {
     const id =
       location.state?.order?.id ||
@@ -43,15 +43,15 @@ function LogOrder() {
       }
     );
     return () => unsub();
-  }, [location.state?.order?.id]); // ติดตาม id ที่มาจาก route state
+  }, [location.state?.order?.id]);
 
   const handleBack = () => navigate(-1);
 
   const toDateSafe = (ts) => {
     try {
       if (!ts) return null;
-      if (ts.toDate) return ts.toDate();          // Firestore Timestamp
-      if (typeof ts === "number") return new Date(ts); // ms epoch
+      if (ts.toDate) return ts.toDate();                // Firestore Timestamp
+      if (typeof ts === "number") return new Date(ts);  // ms epoch
       if (typeof ts === "string") {
         const d = new Date(ts);
         return isNaN(d) ? null : d;
@@ -83,6 +83,7 @@ function LogOrder() {
     }
   };
 
+  // รวม log ใหม่: timeOrder, shippingAt, deliveredAt, pickedUpAt(ย้อนหลัง), failedAt
   const history = useMemo(() => {
     const list = [];
     if (order?.timeOrder) {
@@ -92,16 +93,29 @@ function LogOrder() {
       list.push({ time: order.shippingAt, status: "กำลังจัดส่ง" });
     }
     if (order?.deliveredAt) {
-      list.push({ time: order.deliveredAt, status: "จัดส่งสำเร็จ" || "ลูกค้ารับสินค้าแล้ว" });
+      list.push({ time: order.deliveredAt, status: "จัดส่งสำเร็จ" });
     }
-    // เรียงตามเวลา
+    if (order?.pickedUpAt) {
+      list.push({ time: order.pickedUpAt, status: "จัดส่งสำเร็จ" });
+    }
+    // กรณีจัดส่งไม่สำเร็จ
+    if (order?.failedAt) {
+      list.push({ time: order.failedAt, status: "จัดส่งไม่สำเร็จ" });
+    }
+
     list.sort((a, b) => {
       const ta = toDateSafe(a.time)?.getTime() ?? 0;
       const tb = toDateSafe(b.time)?.getTime() ?? 0;
       return ta - tb;
     });
     return list;
-  }, [order?.timeOrder, order?.shippingAt, order?.deliveredAt]);
+  }, [order?.timeOrder, order?.shippingAt, order?.deliveredAt, order?.pickedUpAt, order?.failedAt]);
+
+  // แสดงสถานะปัจจุบัน โดยรวม “ลูกค้ารับสินค้าแล้ว” ให้เป็น “จัดส่งสำเร็จ”
+  const displayDeliveryStatus =
+    order?.deliveryStatus === "ลูกค้ารับสินค้าแล้ว"
+      ? "จัดส่งสำเร็จ"
+      : order?.deliveryStatus;
 
   return (
     <>
@@ -116,9 +130,9 @@ function LogOrder() {
         ) : history.length > 0 ? (
           <>
             {/* สรุปสถานะล่าสุดจากเอกสารหลัก */}
-            {order?.deliveryStatus && (
+            {displayDeliveryStatus && (
               <div className="current-status">
-                สถานะปัจจุบัน: <strong>{order.deliveryStatus}</strong>
+                สถานะปัจจุบัน: <strong>{displayDeliveryStatus}</strong>
               </div>
             )}
             {order?.statusChangedAt && (
