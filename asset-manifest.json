@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/project_furniture_web/static/css/main.dedbf3e4.css",
-    "main.js": "/project_furniture_web/static/js/main.be631856.js",
+    "main.js": "/project_furniture_web/static/js/main.48ee63b6.js",
     "static/js/453.2a82e7ac.chunk.js": "/project_furniture_web/static/js/453.2a82e7ac.chunk.js",
     "index.html": "/project_furniture_web/index.html",
     "main.dedbf3e4.css.map": "/project_furniture_web/static/css/main.dedbf3e4.css.map",
-    "main.be631856.js.map": "/project_furniture_web/static/js/main.be631856.js.map",
+    "main.48ee63b6.js.map": "/project_furniture_web/static/js/main.48ee63b6.js.map",
     "453.2a82e7ac.chunk.js.map": "/project_furniture_web/static/js/453.2a82e7ac.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.dedbf3e4.css",
-    "static/js/main.be631856.js"
+    "static/js/main.48ee63b6.js"
   ]
 }
