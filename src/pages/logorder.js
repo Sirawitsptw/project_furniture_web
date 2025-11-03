@@ -83,7 +83,6 @@ function LogOrder() {
     }
   };
 
-  // รวม log ใหม่: timeOrder, shippingAt, deliveredAt, pickedUpAt(ย้อนหลัง), failedAt
   const history = useMemo(() => {
     const list = [];
     if (order?.timeOrder) {
