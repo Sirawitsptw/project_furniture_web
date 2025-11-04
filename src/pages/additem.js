@@ -61,7 +61,6 @@ function AddItem() {
       await uploadBytes(modelRef, model);
       const modelUrl = await getDownloadURL(modelRef);
       
-      // --- แปลงค่าทั้งหมดเป็นตัวเลข (ใช้ parseFloat เพื่อรองรับทศนิยม) ---
       const amountNum = parseInt(amount);
       const priceNum = parseInt(price);
       // const widthNum = parseFloat(width);

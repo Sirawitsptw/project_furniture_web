@@ -1,69 +1,100 @@
-/* Container for the table */
-.table-container {
-    padding: 20px;
-    max-width: 1700px; /* เพิ่ม max-width กลับมาเพื่อจำกัดความกว้าง */
-    width: 100%; 
-    margin: 0 auto;
-    overflow-x: auto; /* เพิ่ม scroll กลับมาเพื่อรองรับหน้าจอเล็ก */
+/* === กล่องตาราง + สกรอลล์ === */
+.table-container{ padding:16px; max-width:1400px; width:100%; margin:0 auto; }
+.table-scroll{ overflow:auto; -webkit-overflow-scrolling:touch; }
+
+/* === โต๊ะ === */
+.order-table{
+  width:100%;
+  min-width:1200px;          /* กันหัวข้อเบียดกัน */
+  table-layout:auto;         /* ให้เบราว์เซอร์จัดความกว้างตามคอนเทนต์ */
+  border-collapse:separate;
+  border-spacing:0;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 1px 6px rgba(15,23,42,.06);
+  margin-top:12px;
 }
 
-/* Table heading styling */
-.table-heading {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
+/* หัวตารางติดบน */
+.order-table thead th{
+  position:sticky; top:0; z-index:1;
+  background:#f8fafc; color:#0f172a;
+  font-weight:600; font-size:14px; text-align:left;
+  padding:10px 12px; border-bottom:1px solid #e5e7eb;
+  white-space:nowrap;            /* ไม่ให้หัวตารางตัดคำ */
 }
 
-/* Table styles */
-.order-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* เซลล์ข้อมูล */
+.order-table tbody td{
+  padding:10px 12px;
+  border-bottom:1px solid #eef2f7;
+  background:#fff; vertical-align:middle; font-size:14px;
+  white-space:nowrap;            /* ค่า default: ไม่ตัดคำ => แก้ปัญหาตัวหนังสือเรียงลง */
 }
 
-.order-table th,
-.order-table td {
-    padding: 12px 14px; /* เพิ่ม padding เล็กน้อย */
-    text-align: left;
-    border: 1px solid #ddd;
-    font-size: 14px; /* เพิ่มขนาดฟอนต์จาก 12px เป็น 14px */
-    word-wrap: break-word; /* ให้ข้อความตัดบรรทัดได้ */
-    overflow-wrap: break-word;
+/* hover แถว */
+.order-table tbody tr:hover{ background:#f9fafb; }
+.order-table tbody tr:last-child td{ border-bottom:0; }
+
+/* ลบ scale ที่ทำให้เลย์เอาต์สั่น */
+.clickable-row{ transition:background-color .15s ease; }
+.clickable-row:hover{ background:#f1f5f9 !important; }
+.clickable-row:active{ background:#e8eef9 !important; }
+
+/* ยูทิลิตี้ */
+.cell-right{ text-align:right; }
+.cell-center{ text-align:center; }
+.truncate{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* === กำหนดความกว้าง/การตัดข้อความรายคอลัมน์ (ไม่ต้องแก้ JSX) === */
+/* 1 ลำดับ */
+.order-table th:nth-child(1), .order-table td:nth-child(1){ width:56px; text-align:center; }
+
+/* 2 ชื่อลูกค้า — ตัดด้วย ... */
+.order-table th:nth-child(2), .order-table td:nth-child(2){
+  max-width:220px; overflow:hidden; text-overflow:ellipsis;
 }
 
-.order-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
+/* 3 สินค้า — ตัดด้วย ... */
+.order-table th:nth-child(3), .order-table td:nth-child(3){
+  max-width:160px; overflow:hidden; text-overflow:ellipsis;
 }
 
-.order-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+/* 4 ราคา (ขวา) */
+.order-table th:nth-child(4), .order-table td:nth-child(4){ width:100px; text-align:right; }
+
+/* 5 จำนวน (กลาง) */
+.order-table th:nth-child(5), .order-table td:nth-child(5){ width:80px; text-align:center; }
+
+/* 6 ที่อยู่ — อนุญาตตัดบรรทัด */
+.order-table th:nth-child(6), .order-table td:nth-child(6){
+  white-space:normal; max-width:260px;
 }
 
-.order-table tr:hover {
-    background-color: #f1f1f1;
+/* 7 จัดส่ง */
+.order-table th:nth-child(7), .order-table td:nth-child(7){ max-width:120px; overflow:hidden; text-overflow:ellipsis; }
+
+/* 8 เบอร์ / 9 เวลา */
+.order-table th:nth-child(8), .order-table td:nth-child(8){ width:140px; }
+.order-table th:nth-child(9), .order-table td:nth-child(9){ width:180px; }
+
+/* 10 สถานะจัดส่ง / 11 วิธีชำระ / 12 สถานะชำระ */
+.order-table th:nth-child(10), .order-table td:nth-child(10){ width:130px; }
+.order-table th:nth-child(11), .order-table td:nth-child(11){ width:130px; }
+.order-table th:nth-child(12), .order-table td:nth-child(12){ width:150px; }
+
+/* 13 เลขบัตร / 15 เดือน / 16 ปี (สั้น) */
+.order-table th:nth-child(13), .order-table td:nth-child(13),
+.order-table th:nth-child(15), .order-table td:nth-child(15),
+.order-table th:nth-child(16), .order-table td:nth-child(16){
+  width:90px; text-align:center;
 }
 
-/* Style for clickable rows */
-.clickable-row {
-    transition: background-color 0.2s ease;
+/* 14 ชื่อบนบัตร — ตัด ... */
+.order-table th:nth-child(14), .order-table td:nth-child(14){
+  max-width:160px; overflow:hidden; text-overflow:ellipsis;
 }
 
-.clickable-row:hover {
-    background-color: #e8f4fd !important;
-    transform: scale(1.01);
-}
-
-.clickable-row:active {
-    background-color: #d1ecf1 !important;
-}
-
-/* No data message */
-p {
-    text-align: center;
-    font-size: 18px;
-    color: #777;
-}
+/* 17 ผู้จัดส่ง */
+.order-table th:nth-child(17), .order-table td:nth-child(17){ width:180px; }
