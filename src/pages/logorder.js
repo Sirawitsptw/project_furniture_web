@@ -13,6 +13,8 @@ function LogOrder() {
   const [order, setOrder] = useState(location.state?.order || null);
   const [loading, setLoading] = useState(true);
 
+  const PICKUP = "รับสินค้าด้วยตนเอง";
+
   // ถ้าไม่มี order ส่งกลับหน้าก่อนหน้า
   useEffect(() => {
     if (!location.state?.order) {
@@ -85,18 +87,27 @@ function LogOrder() {
 
   const history = useMemo(() => {
     const list = [];
+    const isPickup = order?.deliveryOption === PICKUP;
+
     if (order?.timeOrder) {
       list.push({ time: order.timeOrder, status: "รอดำเนินการ" });
     }
-    if (order?.shippingAt) {
-      list.push({ time: order.shippingAt, status: "กำลังจัดส่ง" });
+
+    // จัดส่งถึงบ้าน: แสดงตามปกติ (มี shippingAt / deliveredAt)
+    if (!isPickup) {
+      if (order?.shippingAt) {
+        list.push({ time: order.shippingAt, status: "กำลังจัดส่ง" });
+      }
+      if (order?.deliveredAt) {
+        list.push({ time: order.deliveredAt, status: "จัดส่งสำเร็จ" });
+      }
     }
-    if (order?.deliveredAt) {
-      list.push({ time: order.deliveredAt, status: "จัดส่งสำเร็จ" });
+
+    // รับสินค้าด้วยตนเอง: เมื่อรับแล้วให้แสดงเวลาจาก pickUpAt
+    if (order?.pickUpAt) {
+      list.push({ time: order.pickUpAt, status: "ลูกค้ารับสินค้าแล้ว" });
     }
-    if (order?.pickedUpAt) {
-      list.push({ time: order.pickedUpAt, status: "จัดส่งสำเร็จ" });
-    }
+
     // กรณีจัดส่งไม่สำเร็จ
     if (order?.failedAt) {
       list.push({ time: order.failedAt, status: "จัดส่งไม่สำเร็จ" });
@@ -108,13 +119,17 @@ function LogOrder() {
       return ta - tb;
     });
     return list;
-  }, [order?.timeOrder, order?.shippingAt, order?.deliveredAt, order?.pickedUpAt, order?.failedAt]);
+  }, [
+    order?.timeOrder,
+    order?.shippingAt,
+    order?.deliveredAt,
+    order?.pickUpAt,   // ✅ แก้ชื่อให้ถูกต้อง
+    order?.failedAt,
+    order?.deliveryOption,
+  ]);
 
-  // แสดงสถานะปัจจุบัน โดยรวม “ลูกค้ารับสินค้าแล้ว” ให้เป็น “จัดส่งสำเร็จ”
-  const displayDeliveryStatus =
-    order?.deliveryStatus === "ลูกค้ารับสินค้าแล้ว"
-      ? "จัดส่งสำเร็จ"
-      : order?.deliveryStatus;
+  // แสดงสถานะปัจจุบันตามจริง (ไม่แมปอีกต่อไป)
+  const displayDeliveryStatus = order?.deliveryStatus || "-";
 
   return (
     <>
