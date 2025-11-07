@@ -86,7 +86,7 @@ export default function HomePage() {
       if (editData.modelFile && editData.modelFile instanceof File) {
         const modelRef = ref(storage, `models/${editData.modelFile.name}`);
         await uploadBytes(modelRef, editData.modelFile);
-        const modelUrl = getDownloadURL(modelRef);
+        const modelUrl = await getDownloadURL(modelRef);
         updatedData.model = modelUrl;
       }
 
