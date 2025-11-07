@@ -5,7 +5,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
-} from "firebase/firestore";
+  } from "firebase/firestore";
 import { db } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
@@ -72,8 +72,8 @@ export default function HomePage() {
         amount: parseInt(editData.amount),
         width: parseFloat(editData.width),
         height: parseFloat(editData.height),
-        depth: parseFloat(editData.depth),
-        longest: parseFloat(editData.longest),
+        // depth: parseFloat(editData.depth),
+        // longest: parseFloat(editData.longest),
       };
 
       if (editData.img && editData.img instanceof File) {
@@ -86,7 +86,7 @@ export default function HomePage() {
       if (editData.modelFile && editData.modelFile instanceof File) {
         const modelRef = ref(storage, `models/${editData.modelFile.name}`);
         await uploadBytes(modelRef, editData.modelFile);
-        const modelUrl = await getDownloadURL(modelRef);
+        const modelUrl = getDownloadURL(modelRef);
         updatedData.model = modelUrl;
       }
 
@@ -175,61 +175,62 @@ export default function HomePage() {
         </div>
 
         {isEditing && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full overflow-y-auto max-h-[90vh]">
-              <h2 className="text-2xl font-bold mb-4 text-black">แก้ไขสินค้า</h2>
-              <label className="block mb-2 text-black">
-                ชื่อสินค้า:
-                <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.name} onChange={(e) => setEditData({ ...editData, name: e.target.value })} />
-              </label>
-              <label className="block mb-4 text-black">
-                ราคา:
-                <input type="number" className="w-full border px-3 py-2 rounded-lg" value={editData.price} onChange={(e) => setEditData({ ...editData, price: e.target.value })} />
-              </label>
-              <label className="block mb-4 text-black">
-                คำอธิบายสินค้า:
-                <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.desc} onChange={(e) => setEditData({ ...editData, desc: e.target.value })} />
-              </label>
-              <label className="block mb-4 text-black">
-                หมวดหมู่:
-                <select className="w-full border px-3 py-2 rounded-lg" value={editData.type} onChange={(e) => setEditData({ ...editData, type: e.target.value })}>
-                  <option value="โต๊ะ">โต๊ะ</option>
-                  <option value="ตู้">ตู้</option>
-                  <option value="เก้าอี้">เก้าอี้</option>
-                </select>
-              </label>
-              <label className="block mb-4 text-black">
-                จำนวนสินค้า:
-                <input type="number" className="w-full border px-3 py-2 rounded-lg bg-gray-200" min={0} value={editData.amount} readOnly />
-              </label>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] flex flex-col">
+              <div className="p-6 overflow-y-auto flex-1">
+                <h2 className="text-2xl font-bold mb-20 text-black">แก้ไขสินค้า</h2>
+                <label className="block mb-2 text-black">
+                  ชื่อสินค้า:
+                  <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.name} onChange={(e) => setEditData({ ...editData, name: e.target.value })} />
+                </label>
+                <label className="block mb-4 text-black">
+                  ราคา:
+                  <input type="number" className="w-full border px-3 py-2 rounded-lg" value={editData.price} onChange={(e) => setEditData({ ...editData, price: e.target.value })} />
+                </label>
+                <label className="block mb-4 text-black">
+                  คำอธิบายสินค้า:
+                  <input type="text" className="w-full border px-3 py-2 rounded-lg" value={editData.desc} onChange={(e) => setEditData({ ...editData, desc: e.target.value })} />
+                </label>
+                <label className="block mb-4 text-black">
+                  หมวดหมู่:
+                  <select className="w-full border px-3 py-2 rounded-lg" value={editData.type} onChange={(e) => setEditData({ ...editData, type: e.target.value })}>
+                    <option value="โต๊ะ">โต๊ะ</option>
+                    <option value="ตู้">ตู้</option>
+                    <option value="เก้าอี้">เก้าอี้</option>
+                  </select>
+                </label>
+                <label className="block mb-4 text-black">
+                  จำนวนสินค้า:
+                  <input type="number" className="w-full border px-3 py-2 rounded-lg bg-gray-200" min={0} value={editData.amount} readOnly />
+                </label>
 
-              {/* <label className="block mb-4 text-black">
-                ความกว้าง (เมตร):
-                <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.width} onChange={(e) => setEditData({ ...editData, width: e.target.value })}/>
-              </label>
-              <label className="block mb-4 text-black">
-                ความสูง (เมตร):
-                <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.height} onChange={(e) => setEditData({ ...editData, height: e.target.value })}/>
-              </label>
-              <label className="block mb-4 text-black">
-                ความลึก (เมตร):
-                <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.depth} onChange={(e) => setEditData({ ...editData, depth: e.target.value })}/>
-              </label>
-              <label className="block mb-4 text-black">
-                ด้านที่ยาวที่สุด (เมตร):
-                <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.longest} onChange={(e) => setEditData({ ...editData, longest: e.target.value })}/>
-              </label> */}
+                <label className="block mb-4 text-black">
+                  ความกว้าง (หน่วยเมตร):
+                  <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.width} onChange={(e) => setEditData({ ...editData, width: e.target.value })}/>
+                </label>
+                <label className="block mb-4 text-black">
+                  ความสูง (หน่วยเมตร):
+                  <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.height} onChange={(e) => setEditData({ ...editData, height: e.target.value })}/>
+                </label>
+                {/* <label className="block mb-4 text-black">
+                  ความลึก (เมตร):
+                  <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.depth} onChange={(e) => setEditData({ ...editData, depth: e.target.value })}/>
+                </label>
+                <label className="block mb-4 text-black">
+                  ด้านที่ยาวที่สุด (เมตร):
+                  <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.longest} onChange={(e) => setEditData({ ...editData, longest: e.target.value })}/>
+                </label> */}
 
-              <label className="block mb-4 text-black">
-                อัปโหลดรูปภาพใหม่ (ถ้าต้องการเปลี่ยน):
-                <input type="file" accept="image/*" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "img")} />
-              </label>
-              <label className="block mb-4 text-black">
-                อัปโหลด 3D Model ใหม่ (ถ้าต้องการเปลี่ยน):
-                <input type="file" accept=".glb" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "modelFile")} />
-              </label>
-
-              <div className="flex justify-end gap-3 mt-4">
+                <label className="block mb-4 text-black">
+                  อัปโหลดรูปภาพใหม่:
+                  <input type="file" accept="image/*" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "img")} />
+                </label>
+                <label className="block mb-4 text-black">
+                  อัปโหลด 3D Model ใหม่:
+                  <input type="file" accept=".glb" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "modelFile")} />
+                </label>
+              </div>
+              <div className="p-6 pt-0 border-t bg-white flex justify-end gap-3">
                 <button className="bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400" onClick={() => setIsEditing(false)}>
                   Cancel
                 </button>

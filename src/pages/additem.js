@@ -16,8 +16,8 @@ function AddItem() {
   const [model, setModel] = useState(null);
   const [amount, setAmount] = useState(0);
   
-  // const [width, setWidth] = useState(0);
-  // const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
   // const [depth, setDepth] = useState(0);
   // const [longest, setLongest] = useState(0);
   
@@ -29,8 +29,8 @@ function AddItem() {
   const handleTypeChange = (e) => setType(e.target.value);
   const handleAmountChange = (e) => setAmount(e.target.value);
 
-  // const handleWidthChange = (e) => setWidth(e.target.value);
-  // const handleHeightChange = (e) => setHeight(e.target.value);
+  const handleWidthChange = (e) => setWidth(e.target.value);
+  const handleHeightChange = (e) => setHeight(e.target.value);
   // const handleDepthChange = (e) => setDepth(e.target.value);
   // const handleLongestChange = (e) => setLongest(e.target.value);
 
@@ -63,8 +63,8 @@ function AddItem() {
       
       const amountNum = parseInt(amount);
       const priceNum = parseInt(price);
-      // const widthNum = parseFloat(width);
-      // const heightNum = parseFloat(height);
+      const widthNum = parseFloat(width);
+      const heightNum = parseFloat(height);
       // const depthNum = parseFloat(depth);
       // const longestNum = parseFloat(longest);
 
@@ -77,8 +77,8 @@ function AddItem() {
         desc: desc,
         type: type,
         amount: amountNum,
-        // width_m: widthNum,
-        // height_m: heightNum,
+        width: widthNum,
+        height: heightNum,
         // depth_m: depthNum,
         // longest_dimension_m: longestNum,
       });
@@ -135,15 +135,15 @@ function AddItem() {
           <input type="number" min="0" value={amount} onChange={handleAmountChange}/>
         </div>
 
-        {/* <div>
-          <label>ความกว้าง (เมตร)</label>
+        <div>
+          <label>ความกว้าง (หน่วยเมตร)</label>
           <input type="number" step="0.01" min="0" value={width} onChange={handleWidthChange} />
         </div>
         <div>
-          <label>ความสูง (เมตร)</label>
+          <label>ความสูง (หน่วยเมตร)</label>
           <input type="number" step="0.01" min="0" value={height} onChange={handleHeightChange} />
         </div>
-        <div>
+        {/* <div>
           <label>ความลึก (เมตร)</label>
           <input type="number" step="0.01" min="0" value={depth} onChange={handleDepthChange} />
         </div>

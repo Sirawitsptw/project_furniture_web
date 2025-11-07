@@ -65,11 +65,6 @@ function Login() {
               onClick={handleLogin}
             />
           </div>
-          <div id="formFooter">
-            <a className="underlineHover" href="#">
-              Contect us
-            </a>
-          </div>
         </div>
       </div>
     </>
