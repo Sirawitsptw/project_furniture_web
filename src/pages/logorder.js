@@ -8,8 +8,6 @@ import "./logorder.css";
 function LogOrder() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  // ออเดอร์จาก state ก่อน แล้วค่อยเติมข้อมูลล่าสุดจาก Firestore (realtime)
   const [order, setOrder] = useState(location.state?.order || null);
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +20,6 @@ function LogOrder() {
     }
   }, [location.state?.order, navigate]);
 
-  // subscribe เอกสาร order/{id} แบบ realtime
   useEffect(() => {
     const id =
       location.state?.order?.id ||
@@ -51,18 +48,7 @@ function LogOrder() {
 
   const toDateSafe = (ts) => {
     try {
-      if (!ts) return null;
-      if (ts.toDate) return ts.toDate();                // Firestore Timestamp
-      if (typeof ts === "number") return new Date(ts);  // ms epoch
-      if (typeof ts === "string") {
-        const d = new Date(ts);
-        return isNaN(d) ? null : d;
-      }
-      if (ts.seconds != null) {
-        // รูป JSON {seconds, nanoseconds}
-        return new Date(ts.seconds * 1000 + Math.floor((ts.nanoseconds || 0) / 1e6));
-      }
-      return new Date(ts);
+      return !ts ? null : new Date(ts.seconds * 1000 + Math.floor((ts.nanoseconds || 0) / 1e6));
     } catch {
       return null;
     }
@@ -93,7 +79,6 @@ function LogOrder() {
       list.push({ time: order.timeOrder, status: "รอดำเนินการ" });
     }
 
-    // จัดส่งถึงบ้าน: แสดงตามปกติ (มี shippingAt / deliveredAt)
     if (!isPickup) {
       if (order?.shippingAt) {
         list.push({ time: order.shippingAt, status: "กำลังจัดส่ง" });
@@ -103,12 +88,10 @@ function LogOrder() {
       }
     }
 
-    // รับสินค้าด้วยตนเอง: เมื่อรับแล้วให้แสดงเวลาจาก pickUpAt
     if (order?.pickUpAt) {
       list.push({ time: order.pickUpAt, status: "ลูกค้ารับสินค้าแล้ว" });
     }
 
-    // กรณีจัดส่งไม่สำเร็จ
     if (order?.failedAt) {
       list.push({ time: order.failedAt, status: "จัดส่งไม่สำเร็จ" });
     }
@@ -123,12 +106,11 @@ function LogOrder() {
     order?.timeOrder,
     order?.shippingAt,
     order?.deliveredAt,
-    order?.pickUpAt,   // ✅ แก้ชื่อให้ถูกต้อง
+    order?.pickUpAt,
     order?.failedAt,
     order?.deliveryOption,
   ]);
 
-  // แสดงสถานะปัจจุบันตามจริง (ไม่แมปอีกต่อไป)
   const displayDeliveryStatus = order?.deliveryStatus || "-";
 
   return (
@@ -143,7 +125,6 @@ function LogOrder() {
           <p>กำลังโหลดข้อมูล...</p>
         ) : history.length > 0 ? (
           <>
-            {/* สรุปสถานะล่าสุดจากเอกสารหลัก */}
             {displayDeliveryStatus && (
               <div className="current-status">
                 สถานะปัจจุบัน: <strong>{displayDeliveryStatus}</strong>

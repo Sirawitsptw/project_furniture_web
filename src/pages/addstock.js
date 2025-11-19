@@ -12,9 +12,8 @@ export default function AddStock() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [mode, setMode] = useState("increase"); // "increase" | "decrease"
-  const [delta, setDelta] = useState(0);
+  const [delta, setDelta] = useState(0); //จำนวนที่จะปรับ
 
-  // โหลดสินค้าเรียงตามชื่อ
   useEffect(() => {
     const fetch = async () => {
       const qs = await getDocs(query(collection(db, "product"), orderBy("name")));
@@ -25,7 +24,6 @@ export default function AddStock() {
     fetch();
   }, []);
 
-  // ตั้ง selectedProduct จาก selectedId
   useEffect(() => {
     if (!selectedId) { 
         setSelectedProduct(null); 
@@ -55,12 +53,11 @@ export default function AddStock() {
         if (next < 0) throw new Error("สต๊อกติดลบไม่ได้");
 
         tx.update(productRef, { amount: next });
-        return next; // ใช้ sync UI ภายหลัง
+        return next;
       });
 
       alert("ปรับสต็อกสำเร็จ");
 
-      // sync UI ด้วยค่าจริงจากทรานแซกชัน
       setAllProducts(prev => prev.map(it =>
         it.id === selectedProduct.id ? { ...it, amount: nextAmount } : it
       ));

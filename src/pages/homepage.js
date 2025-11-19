@@ -72,8 +72,6 @@ export default function HomePage() {
         amount: parseInt(editData.amount),
         width: parseFloat(editData.width),
         height: parseFloat(editData.height),
-        // depth: parseFloat(editData.depth),
-        // longest: parseFloat(editData.longest),
       };
 
       if (editData.img && editData.img instanceof File) {
@@ -212,15 +210,6 @@ export default function HomePage() {
                   ความสูง (หน่วยเมตร):
                   <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.height} onChange={(e) => setEditData({ ...editData, height: e.target.value })}/>
                 </label>
-                {/* <label className="block mb-4 text-black">
-                  ความลึก (เมตร):
-                  <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.depth} onChange={(e) => setEditData({ ...editData, depth: e.target.value })}/>
-                </label>
-                <label className="block mb-4 text-black">
-                  ด้านที่ยาวที่สุด (เมตร):
-                  <input type="number" step="0.01" min="0" className="w-full border px-3 py-2 rounded-lg" value={editData.longest} onChange={(e) => setEditData({ ...editData, longest: e.target.value })}/>
-                </label> */}
-
                 <label className="block mb-4 text-black">
                   อัปโหลดรูปภาพใหม่:
                   <input type="file" accept="image/*" className="w-full border px-3 py-2 rounded-lg" onChange={(e) => handleFileChange(e, "img")} />

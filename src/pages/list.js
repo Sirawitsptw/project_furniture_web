@@ -8,10 +8,10 @@ import "./list.css";
 import Nav from "./Nav";
 
 function Listdata() {
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState("new"); // new | shipping | failed | done
-  const [riders, setRiders] = useState([]);    // [{id, firstname, ...}]
-  const [riderSelect, setRiderSelect] = useState({}); // { [orderId]: riderId }
+  const [data, setData] = useState([]); //เก็บคำสั่งซื้อ
+  const [filter, setFilter] = useState("new"); 
+  const [riders, setRiders] = useState([]);    //เก็บไรเดอร์
+  const [riderSelect, setRiderSelect] = useState({}); 
   const navigate = useNavigate();
 
   const PICKUP = "รับสินค้าด้วยตนเอง";
@@ -25,16 +25,9 @@ function Listdata() {
       qs.forEach((d) => {
         const x = d.data();
         let timeOrderMs = 0, timeOrderStr = "-";
-        if (x.timeOrder?.seconds != null) {
-          const dt = new Date(x.timeOrder.seconds * 1000);
-          timeOrderMs = dt.getTime(); timeOrderStr = dt.toLocaleString();
-        } else if (typeof x.timeOrder === "string") {
-          const dt = new Date(x.timeOrder);
-          if (!isNaN(dt)) { timeOrderMs = dt.getTime(); timeOrderStr = x.timeOrder; }
-        } else if (typeof x.timeOrder === "number") {
-          const dt = new Date(x.timeOrder);
-          timeOrderMs = dt.getTime(); timeOrderStr = dt.toLocaleString();
-        }
+        const dt = new Date(x.timeOrder.seconds * 1000);
+        timeOrderMs = dt.getTime(); 
+        timeOrderStr = dt.toLocaleString();
         items.push({ id: d.id, ...x, timeOrderMs, timeOrderStr });
       });
       items.sort((a, b) => (b.timeOrderMs || 0) - (a.timeOrderMs || 0));
@@ -85,14 +78,13 @@ function Listdata() {
     return null;
   };
 
-  // ใช้ค่านี้ทั้งฝั่งคำนวณและบันทึก (หน่วย: นาที)
   const BASE_MINUTES = 60;
 
   const riderStats = useMemo(() => {
     const stats = {};
     riders.forEach((r) => (stats[r.id] = { active: 0, earliestFinish: null, name: r.firstname || "ไรเดอร์" }));
     data.forEach((o) => {
-      if (!isShipping(o.deliveryStatus)) return;
+      if (!isShipping(o.deliveryStatus)) return; //ถ้าไม่ใช่ออเดอร์ที่กำลังจัดส่ง ให้ข้าม
       const rid = o.riderId || riders.find((r) => r.firstname === o.rider)?.id;
       if (!rid) return;
       const st = (stats[rid] ||= { active: 0, earliestFinish: null, name: o.rider || "ไรเดอร์" });
@@ -123,7 +115,7 @@ function Listdata() {
     return `${r.firstname} — งาน ${st.active || 0} — ${st.active ? "คาดว่าง " + eta : eta}`;
   };
 
-  // ✅ มอบหมายไรเดอร์: บันทึก shippingAt (server) + etaAt (client) ลง Firestore
+  // มอบหมายไรเดอร์: บันทึก shippingAt + etaAt 
   const handleAssignRider = async (orderId) => {
     const riderId = riderSelect[orderId];
     if (!riderId) return alert("กรุณาเลือกไรเดอร์");
@@ -137,7 +129,6 @@ function Listdata() {
     if (!rider) return alert("พบปัญหา: ไรเดอร์ไม่ถูกต้อง");
 
     try {
-      // คำนวณ ETA จากเวลาปัจจุบันฝั่ง client (ต่างจาก server เล็กน้อยได้ แต่พอสำหรับการประมาณ)
       const nowClient = new Date();
       const etaDate = new Date(nowClient.getTime() + BASE_MINUTES * 60 * 1000);
       const etaAt = Timestamp.fromDate(etaDate);
@@ -155,13 +146,12 @@ function Listdata() {
           riderId: rider.id,
           rider: rider.firstname,
           deliveryStatus: "กำลังจัดส่ง",
-          shippingAt: serverTimestamp(), // เวลาเริ่มส่ง (ฝั่ง server)
-          etaAt,                         // เวลา “คาดว่าจะถึง” (ฝั่ง client)
-          etaMinutes: BASE_MINUTES,      // เก็บเป็นเมตาดาต้าเผื่อแก้สูตรภายหลัง
+          shippingAt: serverTimestamp(), 
+          etaAt,                             
         });
       });
 
-      // อัปเดต UI ให้เห็นทันที
+    
       setData((prev) =>
         prev.map((it) =>
           it.id === orderId
@@ -171,8 +161,7 @@ function Listdata() {
                 rider: rider.firstname,
                 deliveryStatus: "กำลังจัดส่ง",
                 shippingAt: new Date(),
-                etaAt: etaDate,        // เก็บ Date ใน state เพื่อโชว์/ใช้งานต่อได้
-                etaMinutes: BASE_MINUTES,
+                etaAt: etaDate,        
               }
             : it
         )
